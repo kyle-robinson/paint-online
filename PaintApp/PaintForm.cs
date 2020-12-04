@@ -12,15 +12,17 @@ namespace PaintApp
 {
     public partial class PaintForm : Form
     {
+        private Client client;
         private Graphics gfx;
         private Pen pen;
         int x = -1;
         int y = -1;
         bool moving = false;
 
-        public PaintForm()
+        public PaintForm( Client client )
         {
             InitializeComponent();
+            this.client = client;
             gfx = Canvas.CreateGraphics();
             gfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             pen = new Pen( Color.Black, 5 );

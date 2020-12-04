@@ -180,7 +180,7 @@ namespace PaintApp
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.Canvas);
             this.Name = "PaintForm";
-            this.Text = "Form1";
+            this.Text = "Paint Application";
             this.Canvas.ResumeLayout(false);
             this.ColourPalette.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.BlackBox)).EndInit();
