@@ -240,6 +240,7 @@ namespace PaintApp
             this.ServerWindow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ServerWindow.Location = new System.Drawing.Point(14, 228);
             this.ServerWindow.Name = "ServerWindow";
+            this.ServerWindow.ReadOnly = true;
             this.ServerWindow.Size = new System.Drawing.Size(110, 167);
             this.ServerWindow.TabIndex = 8;
             this.ServerWindow.Text = "";
