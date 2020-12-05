@@ -85,5 +85,10 @@ namespace PaintApp
             x = -1;
             y = -1;
         }
+
+        private void ClearButton_Click( object sender, EventArgs e )
+        {
+            Canvas.Invalidate();
+        }
     }
 }
