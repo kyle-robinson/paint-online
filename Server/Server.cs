@@ -12,7 +12,7 @@ namespace Server
     class Server
     {
         private int index;
-        //private UdpClient udpListener;
+        private UdpClient udpListener;
         private TcpListener tcpListerer;
         private ConcurrentDictionary<int, Client> clients;
 
@@ -20,7 +20,7 @@ namespace Server
         {
             IPAddress localAddress = IPAddress.Parse( ipAddress );
             tcpListerer = new TcpListener( localAddress, port );
-            //udpListener = new UdpClient( port );
+            udpListener = new UdpClient( port );
         }
 
         public void Start()
@@ -42,8 +42,8 @@ namespace Server
                 Thread tcpThread = new Thread( () => { TcpClientMethod( client ); } );
                 tcpThread.Start();
                 
-                //Thread udpThread = new Thread( () => { UdpListen(); } );
-                //udpThread.Start();
+                Thread udpThread = new Thread( () => { UdpListen(); } );
+                udpThread.Start();
             }
         }
 
@@ -105,7 +105,7 @@ namespace Server
             }
         }
 
-        /*private void UdpListen()
+        private void UdpListen()
         {
             try
             {
@@ -120,20 +120,44 @@ namespace Server
                     {
                         if ( endPoint.ToString() != c.Value.endPoint.ToString() )
                         {
-                            // Do stuff with other clients
+                            switch ( packet.packetType )
+                            {
+                                case PacketType.LOGIN:
+                                    LoginPacket loginPacket = (LoginPacket)packet;
+                                    clients[index - 1].endPoint = loginPacket.EndPoint;
+                                    break;
+                                case PacketType.PAINTING:
+                                    PaintPacket paintPacket = (PaintPacket)packet;
+                                    MemoryStream paintMemoryStream = new MemoryStream();
+                                    new BinaryFormatter().Serialize( paintMemoryStream, paintPacket );
+                                    byte[] paintBuffer = paintMemoryStream.GetBuffer();
+                                    udpListener.Send( paintBuffer, paintBuffer.Length, c.Value.endPoint );
+                                    paintMemoryStream.Close();
+                                    break;
+                                case PacketType.PEN:
+                                    PenPacket penPacket = (PenPacket)packet;
+                                    MemoryStream penMemoryStream = new MemoryStream();
+                                    new BinaryFormatter().Serialize( penMemoryStream, penPacket );
+                                    byte[] penBuffer = penMemoryStream.GetBuffer();
+                                    udpListener.Send( penBuffer, penBuffer.Length, c.Value.endPoint );
+                                    penMemoryStream.Close();
+                                    break;
+                            }
                         }
                         else
                         {
                             Console.WriteLine( "Matching EndPoints!" );
                         }
                     }
-                    udpListener.Send( bytes, bytes.Length, endPoint );
+                    //foreach( KeyValuePair<int, Client> c in clients )
+                    //    if ( endPoint.ToString() == c.Value.endPoint.ToString() )
+                    //        udpListener.Send( bytes, bytes.Length, endPoint );
                 }
             }
             catch( SocketException e )
             {
                 Console.WriteLine( "Client UDP Read Method Exception: " + e.Message );
             }
-        }*/
+        }
     }
 }

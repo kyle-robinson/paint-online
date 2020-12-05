@@ -53,7 +53,7 @@ namespace PaintApp
         {
             PictureBox pictureBox = (PictureBox)sender;
             pen.Color = pictureBox.BackColor;
-            client.TcpSendMessage( new PenPacket( pen.Color ) );
+            client.UdpSendMessage( new PenPacket( pen.Color ) );
         }
 
         private void Canvas_MouseDown( object sender, MouseEventArgs e )
@@ -67,7 +67,7 @@ namespace PaintApp
         {
             if ( moving && x != -1 && y != -1 )
             {
-                client.TcpSendMessage( new PaintPacket( x, y, e.Location ) );
+                client.UdpSendMessage( new PaintPacket( x, y, e.Location ) );
                 gfx.DrawLine( pen, new Point( x, y ), e.Location );
                 Canvas.Cursor = Cursors.Cross;
                 x = e.X;
