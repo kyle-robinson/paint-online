@@ -13,6 +13,9 @@ namespace PaintApp
         int x = -1;
         int y = -1;
         bool moving = false;
+        private bool connected = false;
+        private bool disconnected = true;
+        private bool nicknameEntered = false;
 
         public PaintForm( Client client )
         {
@@ -45,6 +48,108 @@ namespace PaintApp
         public void ClearCanvas()
         {
             Canvas.Invalidate();
+        }
+
+        public void UpdatePlayerList( string message, bool removeText )
+        {
+            if ( PlayerList.InvokeRequired )
+            {
+                Invoke( new Action( () => { UpdatePlayerList( message, removeText ); } ) );
+            }
+            else
+            {
+                if ( removeText )
+                {
+                    try
+                    {
+                        for ( int i = PlayerList.Items.Count - 1; i >= 0; --i )
+                            if ( PlayerList.Items[i].ToString().Contains( message ) )
+                                PlayerList.Items.RemoveAt( i );
+                    }
+                    catch ( Exception e )
+                    {
+                        Console.WriteLine( "ERROR:: " + e.Message );
+                        PlayerList.Items.RemoveAt( PlayerList.Items.Count - 1 );
+                    }
+                }
+                else
+                {
+                    PlayerList.Items.Add( message );
+                }
+            }
+        }
+
+        public void UpdateServerWindow( string message, Color foreColor, Color backColor )
+        {
+            if ( ServerWindow.InvokeRequired )
+            {
+                Invoke( new Action( () => { UpdateServerWindow( message, foreColor, backColor ); } ) );
+            }
+            else
+            {
+                ServerWindow.SelectionStart = ServerWindow.TextLength;
+                ServerWindow.SelectionLength = 0;
+
+                ServerWindow.SelectionColor = foreColor;
+                ServerWindow.SelectionBackColor = backColor;
+                ServerWindow.AppendText( message + "\n" );
+                ServerWindow.SelectionColor = ServerWindow.ForeColor;
+
+                ServerWindow.SelectionStart = ServerWindow.Text.Length;
+                ServerWindow.ScrollToCaret();
+            }
+        }
+
+        private void ConnectButton_Click( object sender, EventArgs e )
+        {
+            if ( disconnected && nicknameEntered )
+            {
+                connected = true;
+                disconnected = false;
+                Canvas.Enabled = true;
+                ConnectButton.Enabled = false;
+                DisconnectButton.Enabled = true;
+                ClearLocalButton.Enabled = true;
+                ClearGlobalButton.Enabled = true;
+                UpdateServerWindow( "Connected", Color.Black, Color.Blue );
+                client.TcpSendMessage( new ClientListPacket( UsernameTextBox.Text, false ) );
+            }
+
+            if ( disconnected && !nicknameEntered )
+                UpdateServerWindow( "Failed to connect.", Color.Black, Color.Red );
+        }
+
+        private void DisconnectButton_Click( object sender, EventArgs e )
+        {
+            if ( connected )
+            {
+                connected = false;
+                disconnected = true;
+                Canvas.Enabled = false;
+                ConnectButton.Enabled = true;
+                DisconnectButton.Enabled = false;
+                ClearLocalButton.Enabled = false;
+                ClearGlobalButton.Enabled = false;
+                UpdateServerWindow( "Disconnected", Color.Black, Color.Red );
+                client.TcpSendMessage( new ClientListPacket( UsernameTextBox.Text, true ) );
+            }
+        }
+
+        private void UsernameButton_Click(object sender, EventArgs e)
+        {
+            client.TcpSendMessage( new NicknamePacket( UsernameTextBox.Text ) );
+            client.clientName = UsernameTextBox.Text;
+
+            if ( UsernameTextBox.Text != "" && UsernameTextBox.Text != "Enter username..." )
+            { 
+                UpdateServerWindow( "Username set.", Color.Black, Color.Green );
+                nicknameEntered = true;
+            }
+            else
+            {
+                UpdateServerWindow( "Invalid username.", Color.Black, Color.Red );
+                nicknameEntered = false;
+            }
         }
 
         private void ColourBox_Click( object sender, EventArgs e )

@@ -41,9 +41,9 @@ namespace PaintApp
             this.OrangeBox = new System.Windows.Forms.PictureBox();
             this.RedBox = new System.Windows.Forms.PictureBox();
             this.LeftPanel = new System.Windows.Forms.Panel();
+            this.ServerWindow = new System.Windows.Forms.RichTextBox();
             this.ServerListUnderline = new System.Windows.Forms.Panel();
             this.ServerListLabel = new System.Windows.Forms.Label();
-            this.ServerList = new System.Windows.Forms.ListBox();
             this.PlayerListUnderline = new System.Windows.Forms.Panel();
             this.PlayerListLabel = new System.Windows.Forms.Label();
             this.PlayerList = new System.Windows.Forms.ListBox();
@@ -75,6 +75,7 @@ namespace PaintApp
             this.Canvas.BackColor = System.Drawing.Color.White;
             this.Canvas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Canvas.Controls.Add(this.ColourPalette);
+            this.Canvas.Enabled = false;
             this.Canvas.Location = new System.Drawing.Point(120, 48);
             this.Canvas.Name = "Canvas";
             this.Canvas.Size = new System.Drawing.Size(685, 411);
@@ -223,9 +224,9 @@ namespace PaintApp
             // 
             this.LeftPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.LeftPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.LeftPanel.Controls.Add(this.ServerWindow);
             this.LeftPanel.Controls.Add(this.ServerListUnderline);
             this.LeftPanel.Controls.Add(this.ServerListLabel);
-            this.LeftPanel.Controls.Add(this.ServerList);
             this.LeftPanel.Controls.Add(this.PlayerListUnderline);
             this.LeftPanel.Controls.Add(this.PlayerListLabel);
             this.LeftPanel.Controls.Add(this.PlayerList);
@@ -233,6 +234,15 @@ namespace PaintApp
             this.LeftPanel.Name = "LeftPanel";
             this.LeftPanel.Size = new System.Drawing.Size(131, 411);
             this.LeftPanel.TabIndex = 1;
+            // 
+            // ServerWindow
+            // 
+            this.ServerWindow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ServerWindow.Location = new System.Drawing.Point(14, 228);
+            this.ServerWindow.Name = "ServerWindow";
+            this.ServerWindow.Size = new System.Drawing.Size(110, 167);
+            this.ServerWindow.TabIndex = 8;
+            this.ServerWindow.Text = "";
             // 
             // ServerListUnderline
             // 
@@ -251,17 +261,6 @@ namespace PaintApp
             this.ServerListLabel.Size = new System.Drawing.Size(101, 15);
             this.ServerListLabel.TabIndex = 4;
             this.ServerListLabel.Text = "Server Responses";
-            // 
-            // ServerList
-            // 
-            this.ServerList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ServerList.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ServerList.FormattingEnabled = true;
-            this.ServerList.ItemHeight = 15;
-            this.ServerList.Location = new System.Drawing.Point(14, 228);
-            this.ServerList.Name = "ServerList";
-            this.ServerList.Size = new System.Drawing.Size(110, 167);
-            this.ServerList.TabIndex = 7;
             // 
             // PlayerListUnderline
             // 
@@ -311,6 +310,7 @@ namespace PaintApp
             // 
             this.ClearGlobalButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.ClearGlobalButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.ClearGlobalButton.Enabled = false;
             this.ClearGlobalButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.ClearGlobalButton.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ClearGlobalButton.ForeColor = System.Drawing.Color.Black;
@@ -326,6 +326,7 @@ namespace PaintApp
             // 
             this.DisconnectButton.BackColor = System.Drawing.Color.WhiteSmoke;
             this.DisconnectButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.DisconnectButton.Enabled = false;
             this.DisconnectButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.DisconnectButton.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DisconnectButton.ForeColor = System.Drawing.Color.Red;
@@ -335,6 +336,7 @@ namespace PaintApp
             this.DisconnectButton.TabIndex = 3;
             this.DisconnectButton.Text = "Disconnect";
             this.DisconnectButton.UseVisualStyleBackColor = false;
+            this.DisconnectButton.Click += new System.EventHandler(this.DisconnectButton_Click);
             // 
             // ConnectButton
             // 
@@ -349,6 +351,7 @@ namespace PaintApp
             this.ConnectButton.TabIndex = 2;
             this.ConnectButton.Text = "Connect";
             this.ConnectButton.UseVisualStyleBackColor = false;
+            this.ConnectButton.Click += new System.EventHandler(this.ConnectButton_Click);
             // 
             // UsernameButton
             // 
@@ -363,6 +366,7 @@ namespace PaintApp
             this.UsernameButton.TabIndex = 1;
             this.UsernameButton.Text = "Set Username";
             this.UsernameButton.UseVisualStyleBackColor = false;
+            this.UsernameButton.Click += new System.EventHandler(this.UsernameButton_Click);
             // 
             // UsernameUnderline
             // 
@@ -387,6 +391,7 @@ namespace PaintApp
             // 
             this.ClearLocalButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.ClearLocalButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.ClearLocalButton.Enabled = false;
             this.ClearLocalButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.ClearLocalButton.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ClearLocalButton.ForeColor = System.Drawing.Color.Black;
@@ -447,7 +452,6 @@ namespace PaintApp
         private System.Windows.Forms.Label PlayerListLabel;
         private System.Windows.Forms.ListBox PlayerList;
         private System.Windows.Forms.Label ServerListLabel;
-        private System.Windows.Forms.ListBox ServerList;
         private System.Windows.Forms.Panel ServerListUnderline;
         private System.Windows.Forms.TextBox UsernameTextBox;
         private System.Windows.Forms.Button DisconnectButton;
@@ -455,6 +459,7 @@ namespace PaintApp
         private System.Windows.Forms.Button UsernameButton;
         private System.Windows.Forms.Panel UsernameUnderline;
         private System.Windows.Forms.Button ClearGlobalButton;
+        private System.Windows.Forms.RichTextBox ServerWindow;
     }
 }
 

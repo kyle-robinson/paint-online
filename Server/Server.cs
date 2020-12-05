@@ -67,6 +67,25 @@ namespace Server
                                 LoginPacket loginPacket = (LoginPacket)packet;
                                 clients[index - 1].endPoint = loginPacket.EndPoint;
                                 break;
+                            case PacketType.NICKNAME:
+                                NicknamePacket namePacket = (NicknamePacket)packet;
+                                client.name = namePacket.name;
+                                if ( client.name != "" && client.name != "Enter username..." )
+                                    client.TcpSend( new NicknamePacket( client.name ) );
+                                else
+                                    client.TcpSend( new NicknamePacket( null ) );
+                                break;
+                            case PacketType.CLIENT_LIST:
+                                ClientListPacket clientListPacket = (ClientListPacket)packet;
+                                client.name = clientListPacket.name;
+                                foreach ( KeyValuePair<int, Client> c in clients )
+                                {
+                                    if ( !clientListPacket.removeText )
+                                        c.Value.TcpSend( new ClientListPacket( client.name, false ) );
+                                    else if ( clientListPacket.removeText )
+                                        c.Value.TcpSend( new ClientListPacket( client.name, true ) );
+                                }
+                                break;
                         }
                     }
                 }
