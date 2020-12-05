@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PaintApp
@@ -14,7 +8,8 @@ namespace PaintApp
     {
         private Client client;
         private Graphics gfx;
-        private Pen pen;
+        public Pen networkPen;
+        public Pen pen;
         int x = -1;
         int y = -1;
         bool moving = false;
@@ -23,30 +18,28 @@ namespace PaintApp
         {
             InitializeComponent();
             this.client = client;
+            
             gfx = Canvas.CreateGraphics();
             gfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            
             pen = new Pen( Color.Black, 5 );
             pen.StartCap = pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
+            
+            networkPen = new Pen( Color.Black, 5 );
+            networkPen.StartCap = networkPen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
         }
 
         public void UpdateCanvas( int xPos, int yPos, Point mouseLocation )
         {
             if ( Canvas.InvokeRequired )
-            {
                 Invoke( new Action( () => { UpdateCanvas( xPos, yPos, mouseLocation ); } ) );
-            }
             else
-            {
-                //Color penColorTemp = pen.Color;
-                //pen.Color = penColor;
-                gfx.DrawLine( pen, new Point( xPos, yPos ), mouseLocation );
-                //pen.Color = penColorTemp;
-            }
+                gfx.DrawLine( networkPen, new Point( xPos, yPos ), mouseLocation );
         }
 
         public void UpdatePen( Color penColor )
         {
-            pen.Color = penColor;
+            networkPen.Color = penColor;
         }
 
         private void ColourBox_Click( object sender, EventArgs e )
@@ -54,6 +47,16 @@ namespace PaintApp
             PictureBox pictureBox = (PictureBox)sender;
             pen.Color = pictureBox.BackColor;
             client.UdpSendMessage( new PenPacket( pen.Color ) );
+        }
+
+        private void ColourBox_MouseEnter( object sender, EventArgs e )
+        {
+            Canvas.Cursor = Cursors.Hand;
+        }
+
+        private void ColourBox_MouseLeave( object sender, EventArgs e )
+        {
+            Canvas.Cursor = Cursors.Default;
         }
 
         private void Canvas_MouseDown( object sender, MouseEventArgs e )

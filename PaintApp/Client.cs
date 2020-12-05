@@ -87,23 +87,15 @@ namespace PaintApp
                     Packet packet = formatter.Deserialize( memoryStream ) as Packet;
                     switch ( packet.packetType )
                     {
-                        case PacketType.EMPTY:
-                            Console.WriteLine( "Empty packet" );
-                            break;
-                        case PacketType.PAINTING:
-                            PaintPacket paintPacket = (PaintPacket)packet;
-                            paintForm.UpdateCanvas( paintPacket.xPos, paintPacket.yPos, paintPacket.mouseLocation );
-                            break;
-                        case PacketType.PEN:
-                            PenPacket penPacket = (PenPacket)packet;
-                            paintForm.UpdatePen( penPacket.penColor );
+                        case PacketType.LOGIN:
+                            LoginPacket loginPacket = (LoginPacket)packet;
                             break;
                     }
                 }
             }
             catch( Exception exception )
             {
-                Console.WriteLine( exception.Message );
+                Console.WriteLine( "Client TCP Read Method Exception: " + exception.Message );
             }
         }
 
@@ -119,9 +111,6 @@ namespace PaintApp
                     Packet packet = formatter.Deserialize( memoryStream ) as Packet;
                     switch( packet.packetType )
                     {
-                        case PacketType.EMPTY:
-                            Console.WriteLine( "Empty packet" );
-                            break;
                         case PacketType.PAINTING:
                             PaintPacket paintPacket = (PaintPacket)packet;
                             paintForm.UpdateCanvas( paintPacket.xPos, paintPacket.yPos, paintPacket.mouseLocation );
@@ -133,9 +122,9 @@ namespace PaintApp
                     }
                 }
             }
-            catch( SocketException e )
+            catch( SocketException exception )
             {
-                Console.WriteLine( e.Message );
+                Console.WriteLine( "Client UDP Read Method Exception: " + exception.Message );
             }
         }
 

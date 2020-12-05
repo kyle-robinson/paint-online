@@ -61,34 +61,11 @@ namespace Server
                 {
                     if ( packet != null )
                     {
-                        Console.WriteLine( "Received" );
                         switch ( packet.packetType )
                         {
-                            case PacketType.EMPTY:
-                                break;
                             case PacketType.LOGIN:
                                 LoginPacket loginPacket = (LoginPacket)packet;
                                 clients[index - 1].endPoint = loginPacket.EndPoint;
-                                break;
-                            case PacketType.PAINTING:
-                                PaintPacket paintPacket = (PaintPacket)packet;
-                                foreach ( KeyValuePair<int, Client> c in clients )
-                                {
-                                    if ( c.Value != client )
-                                    {
-                                        c.Value.TcpSend( paintPacket );
-                                    }
-                                }
-                                break;
-                            case PacketType.PEN:
-                                PenPacket penPacket = (PenPacket)packet;
-                                foreach ( KeyValuePair<int, Client> c in clients )
-                                {
-                                    if ( c.Value != client )
-                                    {
-                                        c.Value.TcpSend( penPacket );
-                                    }
-                                }
                                 break;
                         }
                     }
@@ -96,7 +73,7 @@ namespace Server
             }
             catch ( Exception exception )
             {
-                Console.WriteLine( "EXCEPTION: " + exception.Message );
+                Console.WriteLine( "Server TCP Read Method Exception: " + exception.Message );
             }
             finally
             {
@@ -115,49 +92,38 @@ namespace Server
                     byte[] bytes = udpListener.Receive( ref endPoint );
                     MemoryStream memoryStream = new MemoryStream( bytes );
                     Packet packet = new BinaryFormatter().Deserialize( memoryStream ) as Packet;
-                    Console.WriteLine( "UPD Receive" );
                     foreach( KeyValuePair<int, Client> c in clients )
                     {
                         if ( endPoint.ToString() != c.Value.endPoint.ToString() )
                         {
                             switch ( packet.packetType )
                             {
-                                case PacketType.LOGIN:
-                                    LoginPacket loginPacket = (LoginPacket)packet;
-                                    clients[index - 1].endPoint = loginPacket.EndPoint;
-                                    break;
                                 case PacketType.PAINTING:
                                     PaintPacket paintPacket = (PaintPacket)packet;
-                                    MemoryStream paintMemoryStream = new MemoryStream();
-                                    new BinaryFormatter().Serialize( paintMemoryStream, paintPacket );
-                                    byte[] paintBuffer = paintMemoryStream.GetBuffer();
-                                    udpListener.Send( paintBuffer, paintBuffer.Length, c.Value.endPoint );
-                                    paintMemoryStream.Close();
+                                    UdpSend( c.Value, paintPacket );
                                     break;
                                 case PacketType.PEN:
                                     PenPacket penPacket = (PenPacket)packet;
-                                    MemoryStream penMemoryStream = new MemoryStream();
-                                    new BinaryFormatter().Serialize( penMemoryStream, penPacket );
-                                    byte[] penBuffer = penMemoryStream.GetBuffer();
-                                    udpListener.Send( penBuffer, penBuffer.Length, c.Value.endPoint );
-                                    penMemoryStream.Close();
+                                    UdpSend( c.Value, penPacket );
                                     break;
                             }
                         }
-                        else
-                        {
-                            Console.WriteLine( "Matching EndPoints!" );
-                        }
                     }
-                    //foreach( KeyValuePair<int, Client> c in clients )
-                    //    if ( endPoint.ToString() == c.Value.endPoint.ToString() )
-                    //        udpListener.Send( bytes, bytes.Length, endPoint );
                 }
             }
             catch( SocketException e )
             {
-                Console.WriteLine( "Client UDP Read Method Exception: " + e.Message );
+                Console.WriteLine( "Server UDP Read Method Exception: " + e.Message );
             }
+        }
+
+        private void UdpSend( Client client, Packet packet )
+        {
+            MemoryStream memoryStream = new MemoryStream();
+            new BinaryFormatter().Serialize( memoryStream, packet );
+            byte[] buffer = memoryStream.GetBuffer();
+            udpListener.Send( buffer, buffer.Length, client.endPoint );
+            memoryStream.Close();
         }
     }
 }

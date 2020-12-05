@@ -29,17 +29,6 @@ public class EmptyPacket : Packet
 }
 
 [Serializable]
-public class ServerMessagePacket : Packet
-{
-    public string message;
-    public ServerMessagePacket( string message )
-    {
-        this.message = message;
-        packetType = PacketType.SERVER_MESSAGE;
-    }
-}
-
-[Serializable]
 public class NicknamePacket : Packet
 {
     public string name;
@@ -77,13 +66,11 @@ public class LoginPacket : Packet
 [Serializable]
 public class PaintPacket : Packet
 {
-    //public Color penColor;
     public int xPos;
     public int yPos;
     public Point mouseLocation;
     public PaintPacket( int xPos, int yPos, Point mouseLocation )
     {
-        //this.penColor = penColor;
         this.xPos = xPos;
         this.yPos = yPos;
         this.mouseLocation = mouseLocation;
