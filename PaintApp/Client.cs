@@ -11,7 +11,7 @@ namespace PaintApp
     public class Client
     {
         private TcpClient tcpClient;
-        private UdpClient udpClient;
+        //private UdpClient udpClient;
         private BinaryReader reader;
         private BinaryWriter writer;
         private PaintForm paintForm;
@@ -21,7 +21,7 @@ namespace PaintApp
         public Client()
         {
             tcpClient = new TcpClient();
-            udpClient = new UdpClient();
+            //udpClient = new UdpClient();
         }
 
         public bool Connect( string ipAddress, int port )
@@ -29,7 +29,7 @@ namespace PaintApp
             try
             {
                 tcpClient.Connect( ipAddress, port );
-                udpClient.Connect( ipAddress, port );
+                //udpClient.Connect( ipAddress, port );
                 stream = tcpClient.GetStream();
                 reader = new BinaryReader( stream, Encoding.UTF8 );
                 writer = new BinaryWriter( stream, Encoding.UTF8 );
@@ -52,8 +52,10 @@ namespace PaintApp
                 Thread tcpThread = new Thread( () => { TcpProcessServerResponse(); } );
                 tcpThread.Start();
 
-                Thread udpThread = new Thread( () => { UdpProcessServerResponse(); } );
-                udpThread.Start();
+                //Thread udpThread = new Thread( () => { UdpProcessServerResponse(); } );
+                //udpThread.Start();
+
+                Login();
 
                 paintForm.ShowDialog();
             }
@@ -64,8 +66,13 @@ namespace PaintApp
             finally
             {
                 tcpClient.Close();
-                udpClient.Close();
+                //udpClient.Close();
             }
+        }
+
+        public void Login()
+        {
+            TcpSendMessage( new LoginPacket( (IPEndPoint)tcpClient.Client.LocalEndPoint ) );
         }
 
         private void TcpProcessServerResponse()
@@ -81,6 +88,15 @@ namespace PaintApp
                     switch ( packet.packetType )
                     {
                         case PacketType.EMPTY:
+                            Console.WriteLine( "Empty packet" );
+                            break;
+                        case PacketType.PAINTING:
+                            PaintPacket paintPacket = (PaintPacket)packet;
+                            paintForm.UpdateCanvas( paintPacket.xPos, paintPacket.yPos, paintPacket.mouseLocation );
+                            break;
+                        case PacketType.PEN:
+                            PenPacket penPacket = (PenPacket)packet;
+                            paintForm.UpdatePen( penPacket.penColor );
                             break;
                     }
                 }
@@ -91,7 +107,7 @@ namespace PaintApp
             }
         }
 
-        private void UdpProcessServerResponse()
+        /*private void UdpProcessServerResponse()
         {
             try
             {
@@ -106,6 +122,9 @@ namespace PaintApp
                         case PacketType.LOGIN:
                             //paintForm.UpdateChatWindow( "This is a LOGIN packet.", "left", Color.Black, Color.White );
                             break;
+                        case PacketType.PAINTING:
+                            Console.WriteLine( "UDP paint packet on client" );
+                            break;
                     }
                 }
             }
@@ -113,7 +132,7 @@ namespace PaintApp
             {
                 Console.WriteLine( "Client UDP Read Method Exception: " + e.Message );
             }
-        }
+        }*/
 
         public void TcpSendMessage( Packet message )
         {
@@ -126,13 +145,13 @@ namespace PaintApp
             memoryStream.Close();
         }
 
-        public void UdpSendMessage( Packet message )
+        /*public void UdpSendMessage( Packet message )
         {
             MemoryStream memoryStream = new MemoryStream();
             formatter.Serialize( memoryStream, message );
             byte[] buffer = memoryStream.GetBuffer();
             udpClient.Send( buffer, buffer.Length );
             memoryStream.Close();
-        }
+        }*/
     }
 }

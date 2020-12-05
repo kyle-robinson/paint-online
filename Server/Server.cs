@@ -12,7 +12,7 @@ namespace Server
     class Server
     {
         private int index;
-        private UdpClient udpListener;
+        //private UdpClient udpListener;
         private TcpListener tcpListerer;
         private ConcurrentDictionary<int, Client> clients;
 
@@ -20,7 +20,7 @@ namespace Server
         {
             IPAddress localAddress = IPAddress.Parse( ipAddress );
             tcpListerer = new TcpListener( localAddress, port );
-            udpListener = new UdpClient( port );
+            //udpListener = new UdpClient( port );
         }
 
         public void Start()
@@ -42,8 +42,8 @@ namespace Server
                 Thread tcpThread = new Thread( () => { TcpClientMethod( client ); } );
                 tcpThread.Start();
                 
-                Thread udpThread = new Thread( () => { UdpListen(); } );
-                udpThread.Start();
+                //Thread udpThread = new Thread( () => { UdpListen(); } );
+                //udpThread.Start();
             }
         }
 
@@ -70,6 +70,26 @@ namespace Server
                                 LoginPacket loginPacket = (LoginPacket)packet;
                                 clients[index - 1].endPoint = loginPacket.EndPoint;
                                 break;
+                            case PacketType.PAINTING:
+                                PaintPacket paintPacket = (PaintPacket)packet;
+                                foreach ( KeyValuePair<int, Client> c in clients )
+                                {
+                                    if ( c.Value != client )
+                                    {
+                                        c.Value.TcpSend( paintPacket );
+                                    }
+                                }
+                                break;
+                            case PacketType.PEN:
+                                PenPacket penPacket = (PenPacket)packet;
+                                foreach ( KeyValuePair<int, Client> c in clients )
+                                {
+                                    if ( c.Value != client )
+                                    {
+                                        c.Value.TcpSend( penPacket );
+                                    }
+                                }
+                                break;
                         }
                     }
                 }
@@ -85,7 +105,7 @@ namespace Server
             }
         }
 
-        private void UdpListen()
+        /*private void UdpListen()
         {
             try
             {
@@ -97,6 +117,7 @@ namespace Server
                     Packet packet = new BinaryFormatter().Deserialize( memoryStream ) as Packet;
                     Console.WriteLine( "UPD Receive" );
                     foreach( KeyValuePair<int, Client> c in clients )
+                    {
                         if ( endPoint.ToString() != c.Value.endPoint.ToString() )
                         {
                             // Do stuff with other clients
@@ -105,6 +126,7 @@ namespace Server
                         {
                             Console.WriteLine( "Matching EndPoints!" );
                         }
+                    }
                     udpListener.Send( bytes, bytes.Length, endPoint );
                 }
             }
@@ -112,6 +134,6 @@ namespace Server
             {
                 Console.WriteLine( "Client UDP Read Method Exception: " + e.Message );
             }
-        }
+        }*/
     }
 }

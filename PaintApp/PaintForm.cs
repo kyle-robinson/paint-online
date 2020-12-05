@@ -29,10 +29,31 @@ namespace PaintApp
             pen.StartCap = pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
         }
 
+        public void UpdateCanvas( int xPos, int yPos, Point mouseLocation )
+        {
+            if ( Canvas.InvokeRequired )
+            {
+                Invoke( new Action( () => { UpdateCanvas( xPos, yPos, mouseLocation ); } ) );
+            }
+            else
+            {
+                //Color penColorTemp = pen.Color;
+                //pen.Color = penColor;
+                gfx.DrawLine( pen, new Point( xPos, yPos ), mouseLocation );
+                //pen.Color = penColorTemp;
+            }
+        }
+
+        public void UpdatePen( Color penColor )
+        {
+            pen.Color = penColor;
+        }
+
         private void ColourBox_Click( object sender, EventArgs e )
         {
             PictureBox pictureBox = (PictureBox)sender;
             pen.Color = pictureBox.BackColor;
+            client.TcpSendMessage( new PenPacket( pen.Color ) );
         }
 
         private void Canvas_MouseDown( object sender, MouseEventArgs e )
@@ -46,6 +67,7 @@ namespace PaintApp
         {
             if ( moving && x != -1 && y != -1 )
             {
+                client.TcpSendMessage( new PaintPacket( x, y, e.Location ) );
                 gfx.DrawLine( pen, new Point( x, y ), e.Location );
                 Canvas.Cursor = Cursors.Cross;
                 x = e.X;

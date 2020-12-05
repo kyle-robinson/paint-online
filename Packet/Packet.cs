@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Drawing;
 
 public enum PacketType
 {
@@ -7,7 +8,9 @@ public enum PacketType
     SERVER_MESSAGE,
     NICKNAME,
     CLIENT_LIST,
-    LOGIN
+    LOGIN,
+    PAINTING,
+    PEN
 }
 
 [Serializable]
@@ -68,5 +71,33 @@ public class LoginPacket : Packet
     {
         this.EndPoint = EndPoint;
         packetType = PacketType.LOGIN;
+    }
+}
+
+[Serializable]
+public class PaintPacket : Packet
+{
+    //public Color penColor;
+    public int xPos;
+    public int yPos;
+    public Point mouseLocation;
+    public PaintPacket( int xPos, int yPos, Point mouseLocation )
+    {
+        //this.penColor = penColor;
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.mouseLocation = mouseLocation;
+        packetType = PacketType.PAINTING;
+    }
+}
+
+[Serializable]
+public class PenPacket : Packet
+{
+    public Color penColor;
+    public PenPacket( Color penColor )
+    {
+        this.penColor = penColor;
+        packetType = PacketType.PEN;
     }
 }
