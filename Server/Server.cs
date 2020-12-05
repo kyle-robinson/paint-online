@@ -98,13 +98,17 @@ namespace Server
                         {
                             switch ( packet.packetType )
                             {
-                                case PacketType.PAINTING:
+                                case PacketType.PAINT:
                                     PaintPacket paintPacket = (PaintPacket)packet;
                                     UdpSend( c.Value, paintPacket );
                                     break;
                                 case PacketType.PEN:
                                     PenPacket penPacket = (PenPacket)packet;
                                     UdpSend( c.Value, penPacket );
+                                    break;
+                                case PacketType.CLEAR:
+                                    ClearPacket clearPacket = (ClearPacket)packet;
+                                    UdpSend( c.Value, clearPacket );
                                     break;
                             }
                         }

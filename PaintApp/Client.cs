@@ -111,13 +111,17 @@ namespace PaintApp
                     Packet packet = formatter.Deserialize( memoryStream ) as Packet;
                     switch( packet.packetType )
                     {
-                        case PacketType.PAINTING:
+                        case PacketType.PAINT:
                             PaintPacket paintPacket = (PaintPacket)packet;
                             paintForm.UpdateCanvas( paintPacket.xPos, paintPacket.yPos, paintPacket.mouseLocation );
                             break;
                         case PacketType.PEN:
                             PenPacket penPacket = (PenPacket)packet;
                             paintForm.UpdatePen( penPacket.penColor );
+                            break;
+                        case PacketType.CLEAR:
+                            ClearPacket clearPacket = (ClearPacket)packet;
+                            paintForm.ClearCanvas();
                             break;
                     }
                 }

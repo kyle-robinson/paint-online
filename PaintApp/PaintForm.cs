@@ -42,6 +42,11 @@ namespace PaintApp
             networkPen.Color = penColor;
         }
 
+        public void ClearCanvas()
+        {
+            Canvas.Invalidate();
+        }
+
         private void ColourBox_Click( object sender, EventArgs e )
         {
             PictureBox pictureBox = (PictureBox)sender;
@@ -86,9 +91,15 @@ namespace PaintApp
             y = -1;
         }
 
-        private void ClearButton_Click( object sender, EventArgs e )
+        private void ClearLocalButton_Click( object sender, EventArgs e )
         {
-            Canvas.Invalidate();
+            ClearCanvas();
+        }
+
+        private void ClearGlobalButton_Click( object sender, EventArgs e )
+        {
+            ClearCanvas();
+            client.UdpSendMessage( new ClearPacket() );
         }
     }
 }

@@ -5,12 +5,12 @@ using System.Drawing;
 public enum PacketType
 {
     EMPTY,
-    SERVER_MESSAGE,
     NICKNAME,
     CLIENT_LIST,
     LOGIN,
-    PAINTING,
-    PEN
+    PAINT,
+    PEN,
+    CLEAR
 }
 
 [Serializable]
@@ -74,7 +74,7 @@ public class PaintPacket : Packet
         this.xPos = xPos;
         this.yPos = yPos;
         this.mouseLocation = mouseLocation;
-        packetType = PacketType.PAINTING;
+        packetType = PacketType.PAINT;
     }
 }
 
@@ -86,5 +86,14 @@ public class PenPacket : Packet
     {
         this.penColor = penColor;
         packetType = PacketType.PEN;
+    }
+}
+
+[Serializable]
+public class ClearPacket : Packet
+{
+    public ClearPacket()
+    {
+        packetType = PacketType.CLEAR;
     }
 }

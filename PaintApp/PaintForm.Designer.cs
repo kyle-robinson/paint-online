@@ -48,13 +48,13 @@ namespace PaintApp
             this.PlayerListLabel = new System.Windows.Forms.Label();
             this.PlayerList = new System.Windows.Forms.ListBox();
             this.TopPanel = new System.Windows.Forms.Panel();
-            this.UsernameTextBox = new System.Windows.Forms.TextBox();
-            this.ClearButton = new System.Windows.Forms.Button();
-            this.UsernameUnderline = new System.Windows.Forms.Panel();
-            this.UsernameButton = new System.Windows.Forms.Button();
-            this.ConnectButton = new System.Windows.Forms.Button();
+            this.ClearGlobalButton = new System.Windows.Forms.Button();
             this.DisconnectButton = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.ConnectButton = new System.Windows.Forms.Button();
+            this.UsernameButton = new System.Windows.Forms.Button();
+            this.UsernameUnderline = new System.Windows.Forms.Panel();
+            this.UsernameTextBox = new System.Windows.Forms.TextBox();
+            this.ClearLocalButton = new System.Windows.Forms.Button();
             this.Canvas.SuspendLayout();
             this.ColourPalette.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BlackBox)).BeginInit();
@@ -295,79 +295,32 @@ namespace PaintApp
             // TopPanel
             // 
             this.TopPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TopPanel.Controls.Add(this.button1);
+            this.TopPanel.Controls.Add(this.ClearGlobalButton);
             this.TopPanel.Controls.Add(this.DisconnectButton);
             this.TopPanel.Controls.Add(this.ConnectButton);
             this.TopPanel.Controls.Add(this.UsernameButton);
             this.TopPanel.Controls.Add(this.UsernameUnderline);
             this.TopPanel.Controls.Add(this.UsernameTextBox);
-            this.TopPanel.Controls.Add(this.ClearButton);
+            this.TopPanel.Controls.Add(this.ClearLocalButton);
             this.TopPanel.Location = new System.Drawing.Point(-9, 0);
             this.TopPanel.Name = "TopPanel";
             this.TopPanel.Size = new System.Drawing.Size(818, 51);
             this.TopPanel.TabIndex = 1;
             // 
-            // UsernameTextBox
+            // ClearGlobalButton
             // 
-            this.UsernameTextBox.BackColor = System.Drawing.SystemColors.Control;
-            this.UsernameTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.UsernameTextBox.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.UsernameTextBox.Location = new System.Drawing.Point(17, 13);
-            this.UsernameTextBox.Name = "UsernameTextBox";
-            this.UsernameTextBox.Size = new System.Drawing.Size(113, 14);
-            this.UsernameTextBox.TabIndex = 0;
-            this.UsernameTextBox.Text = "Enter username...";
-            // 
-            // ClearButton
-            // 
-            this.ClearButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.ClearButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClearButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.ClearButton.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ClearButton.ForeColor = System.Drawing.Color.Black;
-            this.ClearButton.Location = new System.Drawing.Point(517, 13);
-            this.ClearButton.Name = "ClearButton";
-            this.ClearButton.Size = new System.Drawing.Size(138, 23);
-            this.ClearButton.TabIndex = 4;
-            this.ClearButton.Text = "Clear Canvas (Local)";
-            this.ClearButton.UseVisualStyleBackColor = false;
-            this.ClearButton.Click += new System.EventHandler(this.ClearButton_Click);
-            // 
-            // UsernameUnderline
-            // 
-            this.UsernameUnderline.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.UsernameUnderline.Location = new System.Drawing.Point(16, 33);
-            this.UsernameUnderline.Name = "UsernameUnderline";
-            this.UsernameUnderline.Size = new System.Drawing.Size(95, 3);
-            this.UsernameUnderline.TabIndex = 3;
-            // 
-            // UsernameButton
-            // 
-            this.UsernameButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-            this.UsernameButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.UsernameButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.UsernameButton.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.UsernameButton.ForeColor = System.Drawing.Color.Black;
-            this.UsernameButton.Location = new System.Drawing.Point(128, 13);
-            this.UsernameButton.Name = "UsernameButton";
-            this.UsernameButton.Size = new System.Drawing.Size(91, 23);
-            this.UsernameButton.TabIndex = 1;
-            this.UsernameButton.Text = "Set Username";
-            this.UsernameButton.UseVisualStyleBackColor = false;
-            // 
-            // ConnectButton
-            // 
-            this.ConnectButton.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ConnectButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ConnectButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.ConnectButton.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ConnectButton.ForeColor = System.Drawing.Color.Lime;
-            this.ConnectButton.Location = new System.Drawing.Point(274, 13);
-            this.ConnectButton.Name = "ConnectButton";
-            this.ConnectButton.Size = new System.Drawing.Size(91, 23);
-            this.ConnectButton.TabIndex = 2;
-            this.ConnectButton.Text = "Connect";
-            this.ConnectButton.UseVisualStyleBackColor = false;
+            this.ClearGlobalButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.ClearGlobalButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.ClearGlobalButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.ClearGlobalButton.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ClearGlobalButton.ForeColor = System.Drawing.Color.Black;
+            this.ClearGlobalButton.Location = new System.Drawing.Point(662, 13);
+            this.ClearGlobalButton.Name = "ClearGlobalButton";
+            this.ClearGlobalButton.Size = new System.Drawing.Size(138, 23);
+            this.ClearGlobalButton.TabIndex = 5;
+            this.ClearGlobalButton.Text = "Clear Canvas (Global)";
+            this.ClearGlobalButton.UseVisualStyleBackColor = false;
+            this.ClearGlobalButton.Click += new System.EventHandler(this.ClearGlobalButton_Click);
             // 
             // DisconnectButton
             // 
@@ -383,19 +336,67 @@ namespace PaintApp
             this.DisconnectButton.Text = "Disconnect";
             this.DisconnectButton.UseVisualStyleBackColor = false;
             // 
-            // button1
+            // ConnectButton
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button1.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Location = new System.Drawing.Point(662, 13);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(138, 23);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Clear Canvas (Global)";
-            this.button1.UseVisualStyleBackColor = false;
+            this.ConnectButton.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.ConnectButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.ConnectButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.ConnectButton.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ConnectButton.ForeColor = System.Drawing.Color.Lime;
+            this.ConnectButton.Location = new System.Drawing.Point(274, 13);
+            this.ConnectButton.Name = "ConnectButton";
+            this.ConnectButton.Size = new System.Drawing.Size(91, 23);
+            this.ConnectButton.TabIndex = 2;
+            this.ConnectButton.Text = "Connect";
+            this.ConnectButton.UseVisualStyleBackColor = false;
+            // 
+            // UsernameButton
+            // 
+            this.UsernameButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.UsernameButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.UsernameButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.UsernameButton.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UsernameButton.ForeColor = System.Drawing.Color.Black;
+            this.UsernameButton.Location = new System.Drawing.Point(128, 13);
+            this.UsernameButton.Name = "UsernameButton";
+            this.UsernameButton.Size = new System.Drawing.Size(91, 23);
+            this.UsernameButton.TabIndex = 1;
+            this.UsernameButton.Text = "Set Username";
+            this.UsernameButton.UseVisualStyleBackColor = false;
+            // 
+            // UsernameUnderline
+            // 
+            this.UsernameUnderline.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.UsernameUnderline.Location = new System.Drawing.Point(16, 33);
+            this.UsernameUnderline.Name = "UsernameUnderline";
+            this.UsernameUnderline.Size = new System.Drawing.Size(95, 3);
+            this.UsernameUnderline.TabIndex = 3;
+            // 
+            // UsernameTextBox
+            // 
+            this.UsernameTextBox.BackColor = System.Drawing.SystemColors.Control;
+            this.UsernameTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.UsernameTextBox.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UsernameTextBox.Location = new System.Drawing.Point(17, 13);
+            this.UsernameTextBox.Name = "UsernameTextBox";
+            this.UsernameTextBox.Size = new System.Drawing.Size(113, 14);
+            this.UsernameTextBox.TabIndex = 0;
+            this.UsernameTextBox.Text = "Enter username...";
+            // 
+            // ClearLocalButton
+            // 
+            this.ClearLocalButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.ClearLocalButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.ClearLocalButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.ClearLocalButton.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ClearLocalButton.ForeColor = System.Drawing.Color.Black;
+            this.ClearLocalButton.Location = new System.Drawing.Point(517, 13);
+            this.ClearLocalButton.Name = "ClearLocalButton";
+            this.ClearLocalButton.Size = new System.Drawing.Size(138, 23);
+            this.ClearLocalButton.TabIndex = 4;
+            this.ClearLocalButton.Text = "Clear Canvas (Local)";
+            this.ClearLocalButton.UseVisualStyleBackColor = false;
+            this.ClearLocalButton.Click += new System.EventHandler(this.ClearLocalButton_Click);
             // 
             // PaintForm
             // 
@@ -441,7 +442,7 @@ namespace PaintApp
         private System.Windows.Forms.PictureBox RedBox;
         private System.Windows.Forms.Panel LeftPanel;
         private System.Windows.Forms.Panel TopPanel;
-        private System.Windows.Forms.Button ClearButton;
+        private System.Windows.Forms.Button ClearLocalButton;
         private System.Windows.Forms.Panel PlayerListUnderline;
         private System.Windows.Forms.Label PlayerListLabel;
         private System.Windows.Forms.ListBox PlayerList;
@@ -453,7 +454,7 @@ namespace PaintApp
         private System.Windows.Forms.Button ConnectButton;
         private System.Windows.Forms.Button UsernameButton;
         private System.Windows.Forms.Panel UsernameUnderline;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button ClearGlobalButton;
     }
 }
 
