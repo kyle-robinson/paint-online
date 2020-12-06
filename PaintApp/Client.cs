@@ -88,9 +88,6 @@ namespace PaintApp
                     Packet packet = formatter.Deserialize( memoryStream ) as Packet;
                     switch ( packet.packetType )
                     {
-                        case PacketType.LOGIN:
-                            LoginPacket loginPacket = (LoginPacket)packet;
-                            break;
                         case PacketType.CLIENT_LIST:
                             ClientListPacket clientListPacket = (ClientListPacket)packet;
                             paintForm.UpdatePlayerList( clientListPacket.name, clientListPacket.removeText );
@@ -100,7 +97,6 @@ namespace PaintApp
                             paintForm.UpdatePen( penPacket.penColor );
                             break;
                         case PacketType.CLEAR:
-                            ClearPacket clearPacket = (ClearPacket)packet;
                             paintForm.ClearCanvas();
                             break;
                     }

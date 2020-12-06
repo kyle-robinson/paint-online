@@ -116,7 +116,19 @@ namespace PaintApp
                 ClearLocalButton.Enabled = true;
                 ClearGlobalButton.Enabled = true;
 
-                UpdateServerWindow( "Connected", Color.Black, Color.LightGreen );
+                if ( UsernameTextBox.Text.Equals( "admin", StringComparison.InvariantCultureIgnoreCase ) )
+                {
+                    ClearGlobalButton.Visible = true;
+                    ClearLocalButton.Text = "Clear Canvas (Local)";
+                    UpdateServerWindow( "Connected as Admin", Color.Black, Color.MediumPurple );
+                }
+                else
+                {
+                    ClearGlobalButton.Visible = false;
+                    ClearLocalButton.Text = "Clear Canvas";
+                    UpdateServerWindow( "Connected", Color.Black, Color.LightGreen );
+                }                
+                
                 client.TcpSendMessage( new ClientListPacket( UsernameTextBox.Text, false ) );
             }
 

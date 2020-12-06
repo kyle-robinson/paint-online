@@ -314,12 +314,13 @@ namespace PaintApp
             this.ClearGlobalButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.ClearGlobalButton.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ClearGlobalButton.ForeColor = System.Drawing.Color.Black;
-            this.ClearGlobalButton.Location = new System.Drawing.Point(662, 13);
+            this.ClearGlobalButton.Location = new System.Drawing.Point(517, 13);
             this.ClearGlobalButton.Name = "ClearGlobalButton";
             this.ClearGlobalButton.Size = new System.Drawing.Size(138, 23);
             this.ClearGlobalButton.TabIndex = 5;
             this.ClearGlobalButton.Text = "Clear Canvas (Global)";
             this.ClearGlobalButton.UseVisualStyleBackColor = false;
+            this.ClearGlobalButton.Visible = false;
             this.ClearGlobalButton.Click += new System.EventHandler(this.ClearGlobalButton_Click);
             // 
             // DisconnectButton
@@ -395,11 +396,11 @@ namespace PaintApp
             this.ClearLocalButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.ClearLocalButton.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ClearLocalButton.ForeColor = System.Drawing.Color.Black;
-            this.ClearLocalButton.Location = new System.Drawing.Point(517, 13);
+            this.ClearLocalButton.Location = new System.Drawing.Point(662, 13);
             this.ClearLocalButton.Name = "ClearLocalButton";
             this.ClearLocalButton.Size = new System.Drawing.Size(138, 23);
             this.ClearLocalButton.TabIndex = 4;
-            this.ClearLocalButton.Text = "Clear Canvas (Local)";
+            this.ClearLocalButton.Text = "Clear Canvas";
             this.ClearLocalButton.UseVisualStyleBackColor = false;
             this.ClearLocalButton.Click += new System.EventHandler(this.ClearLocalButton_Click);
             // 
