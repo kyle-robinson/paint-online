@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Drawing;
 using System.Threading;
 using System.Net.Sockets;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace Server
     class Server
     {
         private int index;
+        private Color startColor;
         private UdpClient udpListener;
         private TcpListener tcpListerer;
         private ConcurrentDictionary<int, Client> clients;
@@ -66,6 +68,13 @@ namespace Server
                             case PacketType.LOGIN:
                                 LoginPacket loginPacket = (LoginPacket)packet;
                                 clients[index - 1].endPoint = loginPacket.EndPoint;
+                                foreach ( KeyValuePair<int, Client> c in clients )
+                                {
+                                    if ( c.Value == client )
+                                        c.Value.TcpSend( new PenPacket( startColor ) );
+                                    else
+                                        c.Value.TcpSend( new PenPacket( Color.Black ) );
+                                }
                                 break;
                             case PacketType.NICKNAME:
                                 NicknamePacket namePacket = (NicknamePacket)packet;
@@ -85,6 +94,17 @@ namespace Server
                                     else if ( clientListPacket.removeText )
                                         c.Value.TcpSend( new ClientListPacket( client.name, true ) );
                                 }
+                                break;
+                            case PacketType.PEN:
+                                PenPacket penPacket = (PenPacket)packet;
+                                startColor = penPacket.penColor;
+                                foreach ( KeyValuePair<int, Client> c in clients )
+                                    c.Value.TcpSend( penPacket );
+                                break;
+                            case PacketType.CLEAR:
+                                ClearPacket clearPacket = (ClearPacket)packet;
+                                foreach ( KeyValuePair<int, Client> c in clients )
+                                    c.Value.TcpSend( clearPacket );
                                 break;
                         }
                     }
@@ -120,14 +140,6 @@ namespace Server
                                 case PacketType.PAINT:
                                     PaintPacket paintPacket = (PaintPacket)packet;
                                     UdpSend( c.Value, paintPacket );
-                                    break;
-                                case PacketType.PEN:
-                                    PenPacket penPacket = (PenPacket)packet;
-                                    UdpSend( c.Value, penPacket );
-                                    break;
-                                case PacketType.CLEAR:
-                                    ClearPacket clearPacket = (ClearPacket)packet;
-                                    UdpSend( c.Value, clearPacket );
                                     break;
                             }
                         }

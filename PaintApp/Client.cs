@@ -99,6 +99,14 @@ namespace PaintApp
                             ClientListPacket clientListPacket = (ClientListPacket)packet;
                             paintForm.UpdatePlayerList( clientListPacket.name, clientListPacket.removeText );
                             break;
+                        case PacketType.PEN:
+                            PenPacket penPacket = (PenPacket)packet;
+                            paintForm.UpdatePen( penPacket.penColor );
+                            break;
+                        case PacketType.CLEAR:
+                            ClearPacket clearPacket = (ClearPacket)packet;
+                            paintForm.ClearCanvas();
+                            break;
                     }
                 }
             }
@@ -123,14 +131,6 @@ namespace PaintApp
                         case PacketType.PAINT:
                             PaintPacket paintPacket = (PaintPacket)packet;
                             paintForm.UpdateCanvas( paintPacket.xPos, paintPacket.yPos, paintPacket.mouseLocation );
-                            break;
-                        case PacketType.PEN:
-                            PenPacket penPacket = (PenPacket)packet;
-                            paintForm.UpdatePen( penPacket.penColor );
-                            break;
-                        case PacketType.CLEAR:
-                            ClearPacket clearPacket = (ClearPacket)packet;
-                            paintForm.ClearCanvas();
                             break;
                     }
                 }

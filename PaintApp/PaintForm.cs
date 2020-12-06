@@ -8,8 +8,8 @@ namespace PaintApp
     {
         private Client client;
         private Graphics gfx;
-        public Pen networkPen;
-        public Pen pen;
+        private Pen networkPen;
+        private Pen pen;
         int x = -1;
         int y = -1;
         bool moving = false;
@@ -156,7 +156,7 @@ namespace PaintApp
         {
             PictureBox pictureBox = (PictureBox)sender;
             pen.Color = pictureBox.BackColor;
-            client.UdpSendMessage( new PenPacket( pen.Color ) );
+            client.TcpSendMessage( new PenPacket( pen.Color ) );
         }
 
         private void ColourBox_MouseEnter( object sender, EventArgs e )
@@ -171,6 +171,7 @@ namespace PaintApp
 
         private void Canvas_MouseDown( object sender, MouseEventArgs e )
         {
+            client.TcpSendMessage( new PenPacket( pen.Color ) );
             moving = true;
             x = e.X;
             y = e.Y;
@@ -204,7 +205,7 @@ namespace PaintApp
         private void ClearGlobalButton_Click( object sender, EventArgs e )
         {
             ClearCanvas();
-            client.UdpSendMessage( new ClearPacket() );
+            client.TcpSendMessage( new ClearPacket() );
         }
     }
 }
