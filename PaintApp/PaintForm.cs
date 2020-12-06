@@ -111,12 +111,12 @@ namespace PaintApp
                 DisconnectButton.Enabled = true;
                 ClearLocalButton.Enabled = true;
                 ClearGlobalButton.Enabled = true;
-                UpdateServerWindow( "Connected", Color.Black, Color.Blue );
+                UpdateServerWindow( "Connected", Color.Black, Color.SkyBlue );
                 client.TcpSendMessage( new ClientListPacket( UsernameTextBox.Text, false ) );
             }
 
             if ( disconnected && !nicknameEntered )
-                UpdateServerWindow( "Failed to connect.", Color.Black, Color.Red );
+                UpdateServerWindow( "Failed to connect.", Color.Black, Color.IndianRed );
         }
 
         private void DisconnectButton_Click( object sender, EventArgs e )
@@ -130,7 +130,7 @@ namespace PaintApp
                 DisconnectButton.Enabled = false;
                 ClearLocalButton.Enabled = false;
                 ClearGlobalButton.Enabled = false;
-                UpdateServerWindow( "Disconnected", Color.Black, Color.Red );
+                UpdateServerWindow( "Disconnected", Color.Black, Color.IndianRed );
                 client.TcpSendMessage( new ClientListPacket( UsernameTextBox.Text, true ) );
             }
         }
@@ -142,12 +142,12 @@ namespace PaintApp
 
             if ( UsernameTextBox.Text != "" && UsernameTextBox.Text != "Enter username..." )
             { 
-                UpdateServerWindow( "Username set.", Color.Black, Color.Green );
+                UpdateServerWindow( "Username set.", Color.Black, Color.LightGreen );
                 nicknameEntered = true;
             }
             else
             {
-                UpdateServerWindow( "Invalid username.", Color.Black, Color.Red );
+                UpdateServerWindow( "Invalid username.", Color.Black, Color.IndianRed );
                 nicknameEntered = false;
             }
         }
