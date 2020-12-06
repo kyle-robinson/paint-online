@@ -111,7 +111,7 @@ namespace PaintApp
                 DisconnectButton.Enabled = true;
                 ClearLocalButton.Enabled = true;
                 ClearGlobalButton.Enabled = true;
-                UpdateServerWindow( "Connected", Color.Black, Color.SkyBlue );
+                UpdateServerWindow( "Connected", Color.Black, Color.LightGreen );
                 client.TcpSendMessage( new ClientListPacket( UsernameTextBox.Text, false ) );
             }
 
@@ -142,7 +142,7 @@ namespace PaintApp
 
             if ( UsernameTextBox.Text != "" && UsernameTextBox.Text != "Enter username..." )
             { 
-                UpdateServerWindow( "Username set.", Color.Black, Color.LightGreen );
+                UpdateServerWindow( "Username set.", Color.Black, Color.SkyBlue );
                 nicknameEntered = true;
             }
             else
