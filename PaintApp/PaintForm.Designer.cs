@@ -72,7 +72,7 @@ namespace PaintApp
             // 
             // Canvas
             // 
-            this.Canvas.BackColor = System.Drawing.Color.White;
+            this.Canvas.BackColor = System.Drawing.Color.Gainsboro;
             this.Canvas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Canvas.Controls.Add(this.ColourPalette);
             this.Canvas.Enabled = false;
@@ -222,7 +222,7 @@ namespace PaintApp
             // 
             // LeftPanel
             // 
-            this.LeftPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.LeftPanel.BackColor = System.Drawing.Color.Gainsboro;
             this.LeftPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.LeftPanel.Controls.Add(this.ServerWindow);
             this.LeftPanel.Controls.Add(this.ServerListUnderline);
@@ -435,8 +435,6 @@ namespace PaintApp
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel Canvas;
         private System.Windows.Forms.Panel ColourPalette;
         private System.Windows.Forms.PictureBox BlackBox;
         private System.Windows.Forms.PictureBox WhiteBox;
@@ -462,6 +460,7 @@ namespace PaintApp
         private System.Windows.Forms.Panel UsernameUnderline;
         private System.Windows.Forms.Button ClearGlobalButton;
         private System.Windows.Forms.RichTextBox ServerWindow;
+        private System.Windows.Forms.Panel Canvas;
     }
 }
 

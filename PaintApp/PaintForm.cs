@@ -104,13 +104,18 @@ namespace PaintApp
         {
             if ( disconnected && nicknameEntered )
             {
-                connected = true;
-                disconnected = false;
                 Canvas.Enabled = true;
+                Canvas.BackColor = Color.White;
+
+                connected = true;
                 ConnectButton.Enabled = false;
+
+                disconnected = false;
                 DisconnectButton.Enabled = true;
+
                 ClearLocalButton.Enabled = true;
                 ClearGlobalButton.Enabled = true;
+
                 UpdateServerWindow( "Connected", Color.Black, Color.LightGreen );
                 client.TcpSendMessage( new ClientListPacket( UsernameTextBox.Text, false ) );
             }
@@ -123,13 +128,18 @@ namespace PaintApp
         {
             if ( connected )
             {
-                connected = false;
-                disconnected = true;
                 Canvas.Enabled = false;
+                Canvas.BackColor = Color.Gainsboro;
+
+                connected = false;
                 ConnectButton.Enabled = true;
+
+                disconnected = true;
                 DisconnectButton.Enabled = false;
+
                 ClearLocalButton.Enabled = false;
                 ClearGlobalButton.Enabled = false;
+
                 UpdateServerWindow( "Disconnected", Color.Black, Color.IndianRed );
                 client.TcpSendMessage( new ClientListPacket( UsernameTextBox.Text, true ) );
             }
