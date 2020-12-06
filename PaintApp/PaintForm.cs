@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace PaintApp
 {
     public partial class PaintForm : Form
     {
+        private List<string> playerNames;
         private Client client;
         private Graphics gfx;
         private Pen networkPen;
@@ -21,6 +24,7 @@ namespace PaintApp
         {
             InitializeComponent();
             this.client = client;
+            playerNames = new List<string>();
             
             gfx = Canvas.CreateGraphics();
             gfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
@@ -60,21 +64,17 @@ namespace PaintApp
             {
                 if ( removeText )
                 {
-                    try
-                    {
-                        for ( int i = PlayerList.Items.Count - 1; i >= 0; --i )
-                            if ( PlayerList.Items[i].ToString().Contains( message ) )
-                                PlayerList.Items.RemoveAt( i );
-                    }
-                    catch ( Exception e )
-                    {
-                        Console.WriteLine( "ERROR:: " + e.Message );
-                        PlayerList.Items.RemoveAt( PlayerList.Items.Count - 1 );
-                    }
+                    playerNames.Clear();
+                    PlayerList.Items.Clear();
                 }
-                else
+
+                playerNames.Add( message );
+                PlayerList.Items.Add( message );
+
+                if ( playerNames.Count != playerNames.Distinct().Count() )
                 {
-                    PlayerList.Items.Add( message );
+                    playerNames.Remove( message );
+                    PlayerList.Items.Remove( message );
                 }
             }
         }
@@ -135,11 +135,8 @@ namespace PaintApp
             }
         }
 
-        private void UsernameButton_Click(object sender, EventArgs e)
+        private void UsernameButton_Click( object sender, EventArgs e )
         {
-            client.TcpSendMessage( new NicknamePacket( UsernameTextBox.Text ) );
-            client.clientName = UsernameTextBox.Text;
-
             if ( UsernameTextBox.Text != "" && UsernameTextBox.Text != "Enter username..." )
             { 
                 UpdateServerWindow( "Username set.", Color.Black, Color.SkyBlue );

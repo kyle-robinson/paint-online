@@ -16,6 +16,7 @@ namespace Server
         private Color startColor;
         private UdpClient udpListener;
         private TcpListener tcpListerer;
+        private List<string> clientNames;
         private ConcurrentDictionary<int, Client> clients;
 
         public Server( string ipAddress, int port )
@@ -23,6 +24,7 @@ namespace Server
             IPAddress localAddress = IPAddress.Parse( ipAddress );
             tcpListerer = new TcpListener( localAddress, port );
             udpListener = new UdpClient( port );
+            clientNames = new List<string>();
         }
 
         public void Start()
@@ -76,23 +78,21 @@ namespace Server
                                         c.Value.TcpSend( new PenPacket( Color.Black ) );
                                 }
                                 break;
-                            case PacketType.NICKNAME:
-                                NicknamePacket namePacket = (NicknamePacket)packet;
-                                client.name = namePacket.name;
-                                if ( client.name != "" && client.name != "Enter username..." )
-                                    client.TcpSend( new NicknamePacket( client.name ) );
-                                else
-                                    client.TcpSend( new NicknamePacket( null ) );
-                                break;
                             case PacketType.CLIENT_LIST:
                                 ClientListPacket clientListPacket = (ClientListPacket)packet;
-                                client.name = clientListPacket.name;
+                                if ( !clientListPacket.removeText )
+                                    clientNames.Add( clientListPacket.name );
+                                else if ( clientListPacket.removeText )
+                                    clientNames.Remove( clientListPacket.name );
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                 {
-                                    if ( !clientListPacket.removeText )
-                                        c.Value.TcpSend( new ClientListPacket( client.name, false ) );
-                                    else if ( clientListPacket.removeText )
-                                        c.Value.TcpSend( new ClientListPacket( client.name, true ) );
+                                    for ( int i = 0; i < clientNames.Count; i++ )
+                                    {
+                                        if ( i == 0 )
+                                            c.Value.TcpSend( new ClientListPacket( clientNames[i], true ) );
+                                        else
+                                            c.Value.TcpSend( new ClientListPacket( clientNames[i], false ) );
+                                    }
                                 }
                                 break;
                             case PacketType.PEN:

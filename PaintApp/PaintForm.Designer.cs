@@ -412,6 +412,7 @@ namespace PaintApp
             this.Controls.Add(this.LeftPanel);
             this.Controls.Add(this.Canvas);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "PaintForm";
             this.Text = "Paint Application";
             this.Canvas.ResumeLayout(false);

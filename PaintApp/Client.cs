@@ -91,10 +91,6 @@ namespace PaintApp
                         case PacketType.LOGIN:
                             LoginPacket loginPacket = (LoginPacket)packet;
                             break;
-                        case PacketType.NICKNAME:
-                            NicknamePacket namePacket = (NicknamePacket)packet;
-                            clientName = namePacket.name;
-                            break;
                         case PacketType.CLIENT_LIST:
                             ClientListPacket clientListPacket = (ClientListPacket)packet;
                             paintForm.UpdatePlayerList( clientListPacket.name, clientListPacket.removeText );

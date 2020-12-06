@@ -29,17 +29,6 @@ public class EmptyPacket : Packet
 }
 
 [Serializable]
-public class NicknamePacket : Packet
-{
-    public string name;
-    public NicknamePacket( string name )
-    {
-        this.name = name;
-        packetType = PacketType.NICKNAME;
-    }
-}
-
-[Serializable]
 public class ClientListPacket : Packet
 {
     public string name;
