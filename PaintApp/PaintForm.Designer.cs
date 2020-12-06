@@ -283,13 +283,12 @@ namespace PaintApp
             // 
             // PlayerList
             // 
-            this.PlayerList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PlayerList.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PlayerList.FormattingEnabled = true;
             this.PlayerList.ItemHeight = 15;
             this.PlayerList.Location = new System.Drawing.Point(14, 29);
             this.PlayerList.Name = "PlayerList";
-            this.PlayerList.Size = new System.Drawing.Size(110, 167);
+            this.PlayerList.Size = new System.Drawing.Size(110, 154);
             this.PlayerList.TabIndex = 0;
             // 
             // TopPanel
@@ -381,7 +380,7 @@ namespace PaintApp
             // 
             this.UsernameTextBox.BackColor = System.Drawing.SystemColors.Control;
             this.UsernameTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.UsernameTextBox.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UsernameTextBox.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UsernameTextBox.Location = new System.Drawing.Point(17, 13);
             this.UsernameTextBox.Name = "UsernameTextBox";
             this.UsernameTextBox.Size = new System.Drawing.Size(113, 14);
@@ -412,6 +411,7 @@ namespace PaintApp
             this.Controls.Add(this.TopPanel);
             this.Controls.Add(this.LeftPanel);
             this.Controls.Add(this.Canvas);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "PaintForm";
             this.Text = "Paint Application";
             this.Canvas.ResumeLayout(false);
