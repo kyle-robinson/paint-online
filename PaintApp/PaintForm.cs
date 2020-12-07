@@ -111,6 +111,9 @@ namespace PaintApp
 
         private void Connect()
         {
+            UsernameButton.Enabled = false;
+            UsernameTextBox.Enabled = false;
+
             Canvas.Enabled = true;
             Canvas.BackColor = Color.White;
 
@@ -122,6 +125,24 @@ namespace PaintApp
 
             ClearLocalButton.Enabled = true;
             ClearGlobalButton.Enabled = true;
+        }
+
+        private void Disconnect()
+        {
+            UsernameButton.Enabled = true;
+            UsernameTextBox.Enabled = true;
+
+            Canvas.Enabled = false;
+            Canvas.BackColor = Color.Gainsboro;
+
+            connected = false;
+            ConnectButton.Enabled = true;
+
+            disconnected = true;
+            DisconnectButton.Enabled = false;
+
+            ClearLocalButton.Enabled = false;
+            ClearGlobalButton.Enabled = false;
         }
 
         private void ConnectButton_Click( object sender, EventArgs e )
@@ -159,18 +180,7 @@ namespace PaintApp
         {
             if ( connected )
             {
-                Canvas.Enabled = false;
-                Canvas.BackColor = Color.Gainsboro;
-
-                connected = false;
-                ConnectButton.Enabled = true;
-
-                disconnected = true;
-                DisconnectButton.Enabled = false;
-
-                ClearLocalButton.Enabled = false;
-                ClearGlobalButton.Enabled = false;
-
+                Disconnect();
                 UpdateServerWindow( "Disconnected", Color.Black, Color.IndianRed );
                 client.TcpSendMessage( new ClientListPacket( UsernameTextBox.Text, true ) );
 
@@ -181,7 +191,7 @@ namespace PaintApp
 
         private void UsernameButton_Click( object sender, EventArgs e )
         {
-            if ( UsernameTextBox.Text != "" && UsernameTextBox.Text != "Enter username..." )
+            if ( UsernameTextBox.Text != "" && UsernameTextBox.Text != "Enter username..." && disconnected )
             { 
                 UpdateServerWindow( "Username set.", Color.Black, Color.SkyBlue );
                 nicknameEntered = true;
