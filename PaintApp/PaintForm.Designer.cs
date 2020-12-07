@@ -49,7 +49,6 @@ namespace PaintApp
             this.PlayerListLabel = new System.Windows.Forms.Label();
             this.PlayerList = new System.Windows.Forms.ListBox();
             this.AdminMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.RemovePlayerItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DisablePaintingItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ClearCanvasItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TopPanel = new System.Windows.Forms.Panel();
@@ -301,20 +300,11 @@ namespace PaintApp
             // AdminMenu
             // 
             this.AdminMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.RemovePlayerItem,
             this.DisablePaintingItem,
             this.ClearCanvasItem});
             this.AdminMenu.Name = "AdminMenu";
-            this.AdminMenu.Size = new System.Drawing.Size(181, 92);
+            this.AdminMenu.Size = new System.Drawing.Size(181, 70);
             this.AdminMenu.Opening += new System.ComponentModel.CancelEventHandler(this.AdminMenu_Opening);
-            // 
-            // RemovePlayerItem
-            // 
-            this.RemovePlayerItem.Name = "RemovePlayerItem";
-            this.RemovePlayerItem.Size = new System.Drawing.Size(180, 22);
-            this.RemovePlayerItem.Text = "Remove Player";
-            this.RemovePlayerItem.Visible = false;
-            this.RemovePlayerItem.Click += new System.EventHandler(this.RemovePlayerItem_Click);
             // 
             // DisablePaintingItem
             // 
@@ -505,7 +495,6 @@ namespace PaintApp
         private System.Windows.Forms.RichTextBox ServerWindow;
         private System.Windows.Forms.Panel Canvas;
         private System.Windows.Forms.ContextMenuStrip AdminMenu;
-        private System.Windows.Forms.ToolStripMenuItem RemovePlayerItem;
         private System.Windows.Forms.ToolStripMenuItem DisablePaintingItem;
         private System.Windows.Forms.ToolStripMenuItem ClearCanvasItem;
     }

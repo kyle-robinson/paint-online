@@ -131,24 +131,6 @@ namespace PaintApp
             ClearGlobalButton.Enabled = true;
         }
 
-        private void Disconnect()
-        {
-            UsernameButton.Enabled = true;
-            UsernameTextBox.Enabled = true;
-
-            Canvas.Enabled = false;
-            Canvas.BackColor = Color.Gainsboro;
-
-            connected = false;
-            ConnectButton.Enabled = true;
-
-            disconnected = true;
-            DisconnectButton.Enabled = false;
-
-            ClearLocalButton.Enabled = false;
-            ClearGlobalButton.Enabled = false;
-        }
-
         private void ConnectButton_Click( object sender, EventArgs e )
         {
             if ( disconnected && nicknameEntered )
@@ -186,7 +168,21 @@ namespace PaintApp
         {
             if ( connected )
             {
-                Disconnect();
+                UsernameButton.Enabled = true;
+                UsernameTextBox.Enabled = true;
+
+                Canvas.Enabled = false;
+                Canvas.BackColor = Color.Gainsboro;
+
+                connected = false;
+                ConnectButton.Enabled = true;
+
+                disconnected = true;
+                DisconnectButton.Enabled = false;
+
+                ClearLocalButton.Enabled = false;
+                ClearGlobalButton.Enabled = false;
+
                 UpdateServerWindow( "Disconnected", Color.Black, Color.IndianRed );
                 client.TcpSendMessage( new ClientListPacket( UsernameTextBox.Text, true ) );
 
@@ -264,11 +260,6 @@ namespace PaintApp
         {
             ClearCanvas();
             client.TcpSendMessage( new ClearGlobalPacket() );
-        }
-
-        private void RemovePlayerItem_Click( object sender, EventArgs e )
-        {
-            
         }
 
         private void DisablePaintingItem_Click( object sender, EventArgs e )
