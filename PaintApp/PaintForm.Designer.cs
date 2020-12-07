@@ -29,6 +29,7 @@ namespace PaintApp
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.Canvas = new System.Windows.Forms.Panel();
             this.ColourPalette = new System.Windows.Forms.Panel();
             this.BlackBox = new System.Windows.Forms.PictureBox();
@@ -47,6 +48,10 @@ namespace PaintApp
             this.PlayerListUnderline = new System.Windows.Forms.Panel();
             this.PlayerListLabel = new System.Windows.Forms.Label();
             this.PlayerList = new System.Windows.Forms.ListBox();
+            this.AdminMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.RemovePlayerItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DisablePaintingItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ClearCanvasItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TopPanel = new System.Windows.Forms.Panel();
             this.ClearGlobalButton = new System.Windows.Forms.Button();
             this.DisconnectButton = new System.Windows.Forms.Button();
@@ -67,6 +72,7 @@ namespace PaintApp
             ((System.ComponentModel.ISupportInitialize)(this.OrangeBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RedBox)).BeginInit();
             this.LeftPanel.SuspendLayout();
+            this.AdminMenu.SuspendLayout();
             this.TopPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -283,6 +289,7 @@ namespace PaintApp
             // 
             // PlayerList
             // 
+            this.PlayerList.ContextMenuStrip = this.AdminMenu;
             this.PlayerList.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PlayerList.FormattingEnabled = true;
             this.PlayerList.ItemHeight = 15;
@@ -290,6 +297,40 @@ namespace PaintApp
             this.PlayerList.Name = "PlayerList";
             this.PlayerList.Size = new System.Drawing.Size(110, 154);
             this.PlayerList.TabIndex = 0;
+            // 
+            // AdminMenu
+            // 
+            this.AdminMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.RemovePlayerItem,
+            this.DisablePaintingItem,
+            this.ClearCanvasItem});
+            this.AdminMenu.Name = "AdminMenu";
+            this.AdminMenu.Size = new System.Drawing.Size(181, 92);
+            this.AdminMenu.Opening += new System.ComponentModel.CancelEventHandler(this.AdminMenu_Opening);
+            // 
+            // RemovePlayerItem
+            // 
+            this.RemovePlayerItem.Enabled = false;
+            this.RemovePlayerItem.Name = "RemovePlayerItem";
+            this.RemovePlayerItem.Size = new System.Drawing.Size(180, 22);
+            this.RemovePlayerItem.Text = "Remove Player";
+            this.RemovePlayerItem.Click += new System.EventHandler(this.RemovePlayerItem_Click);
+            // 
+            // DisablePaintingItem
+            // 
+            this.DisablePaintingItem.Enabled = false;
+            this.DisablePaintingItem.Name = "DisablePaintingItem";
+            this.DisablePaintingItem.Size = new System.Drawing.Size(180, 22);
+            this.DisablePaintingItem.Text = "Disable Painting";
+            this.DisablePaintingItem.Click += new System.EventHandler(this.DisablePaintingItem_Click);
+            // 
+            // ClearCanvasItem
+            // 
+            this.ClearCanvasItem.Enabled = false;
+            this.ClearCanvasItem.Name = "ClearCanvasItem";
+            this.ClearCanvasItem.Size = new System.Drawing.Size(180, 22);
+            this.ClearCanvasItem.Text = "Clear Canvas";
+            this.ClearCanvasItem.Click += new System.EventHandler(this.ClearCanvasItem_Click);
             // 
             // TopPanel
             // 
@@ -429,6 +470,7 @@ namespace PaintApp
             ((System.ComponentModel.ISupportInitialize)(this.RedBox)).EndInit();
             this.LeftPanel.ResumeLayout(false);
             this.LeftPanel.PerformLayout();
+            this.AdminMenu.ResumeLayout(false);
             this.TopPanel.ResumeLayout(false);
             this.TopPanel.PerformLayout();
             this.ResumeLayout(false);
@@ -462,6 +504,10 @@ namespace PaintApp
         private System.Windows.Forms.Button ClearGlobalButton;
         private System.Windows.Forms.RichTextBox ServerWindow;
         private System.Windows.Forms.Panel Canvas;
+        private System.Windows.Forms.ContextMenuStrip AdminMenu;
+        private System.Windows.Forms.ToolStripMenuItem RemovePlayerItem;
+        private System.Windows.Forms.ToolStripMenuItem DisablePaintingItem;
+        private System.Windows.Forms.ToolStripMenuItem ClearCanvasItem;
     }
 }
 

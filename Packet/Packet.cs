@@ -11,7 +11,8 @@ public enum PacketType
     PAINT,
     PEN,
     CLEAR,
-    ADMIN
+    ADMIN,
+    ENABLE_PAINTING
 }
 
 [Serializable]
@@ -96,5 +97,18 @@ public class AdminPacket : Packet
     {
         this.adminConnected = adminConnected;
         packetType = PacketType.ADMIN;
+    }
+}
+
+[Serializable]
+public class EnablePaintingPacket : Packet
+{
+    public string playerName;
+    public bool enablePainting;
+    public EnablePaintingPacket( string playerName, bool enablePainting )
+    {
+        this.playerName = playerName;
+        this.enablePainting = enablePainting;
+        packetType = PacketType.ENABLE_PAINTING;
     }
 }

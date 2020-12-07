@@ -103,6 +103,11 @@ namespace PaintApp
                             AdminPacket adminPacket = (AdminPacket)packet;
                             paintForm.adminConnected = adminPacket.adminConnected;
                             break;
+                        case PacketType.ENABLE_PAINTING:
+                            EnablePaintingPacket enablePainting = (EnablePaintingPacket)packet;
+                            if ( enablePainting.playerName == clientName )
+                                paintForm.penEnabled = enablePainting.enablePainting;
+                            break;
                     }
                 }
             }

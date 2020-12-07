@@ -8,6 +8,7 @@ namespace PaintApp
 {
     public partial class PaintForm : Form
     {
+        private List<string> noPaintPlayers;
         private List<string> playerNames;
         private Client client;
         private Graphics gfx;
@@ -15,7 +16,9 @@ namespace PaintApp
         private Pen pen;
         int x = -1;
         int y = -1;
-        bool moving = false;
+        private bool moving = false;
+        private bool isAdmin = false;
+        public bool penEnabled = true;
         private bool connected = false;
         private bool disconnected = true;
         public bool adminConnected = false;
@@ -26,6 +29,7 @@ namespace PaintApp
             InitializeComponent();
             this.client = client;
             playerNames = new List<string>();
+            noPaintPlayers = new List<string>();
             
             gfx = Canvas.CreateGraphics();
             gfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
@@ -156,6 +160,7 @@ namespace PaintApp
                 else if ( UsernameTextBox.Text.Equals( "admin", StringComparison.InvariantCultureIgnoreCase ) && !adminConnected )
                 {
                     Connect();
+                    isAdmin = true;
                     ClearGlobalButton.Visible = true;
                     ClearLocalButton.Text = "Clear Canvas (Local)";
                     client.TcpSendMessage( new AdminPacket( true ) );
@@ -165,6 +170,7 @@ namespace PaintApp
                 else
                 {
                     Connect();
+                    isAdmin = false;
                     ClearGlobalButton.Visible = false;
                     ClearLocalButton.Text = "Clear Canvas";
                     UpdateServerWindow( "Connected", Color.Black, Color.LightGreen );
@@ -194,6 +200,7 @@ namespace PaintApp
             if ( UsernameTextBox.Text != "" && UsernameTextBox.Text != "Enter username..." && disconnected )
             { 
                 UpdateServerWindow( "Username set.", Color.Black, Color.SkyBlue );
+                client.clientName = UsernameTextBox.Text;
                 nicknameEntered = true;
             }
             else
@@ -230,7 +237,7 @@ namespace PaintApp
 
         private void Canvas_MouseMove( object sender, MouseEventArgs e )
         {
-            if ( moving && x != -1 && y != -1 )
+            if ( moving && x != -1 && y != -1 && penEnabled )
             {
                 client.UdpSendMessage( new PaintPacket( x, y, e.Location ) );
                 gfx.DrawLine( pen, new Point( x, y ), e.Location );
@@ -257,6 +264,42 @@ namespace PaintApp
         {
             ClearCanvas();
             client.TcpSendMessage( new ClearPacket() );
+        }
+
+        private void RemovePlayerItem_Click( object sender, EventArgs e )
+        {
+            
+        }
+
+        private void DisablePaintingItem_Click( object sender, EventArgs e )
+        {
+            if ( !noPaintPlayers.Contains( PlayerList.SelectedItem.ToString() ) )
+            {
+                DisablePaintingItem.Text = "Enable Painting";
+                noPaintPlayers.Add( PlayerList.SelectedItem.ToString() );
+                client.TcpSendMessage( new EnablePaintingPacket( PlayerList.SelectedItem.ToString(), false ) );
+            }
+            else
+            {
+                DisablePaintingItem.Text = "Disable Painting";
+                noPaintPlayers.Remove( PlayerList.SelectedItem.ToString() );
+                client.TcpSendMessage( new EnablePaintingPacket( PlayerList.SelectedItem.ToString(), true ) );
+            }
+        }
+
+        private void ClearCanvasItem_Click( object sender, EventArgs e )
+        {
+            
+        }
+
+        private void AdminMenu_Opening( object sender, System.ComponentModel.CancelEventArgs e )
+        {
+            if ( isAdmin )
+                for ( int i = 0; i < AdminMenu.Items.Count; i++ )
+                    AdminMenu.Items[i].Enabled = true;
+            else
+                for ( int i = 0; i < AdminMenu.Items.Count; i++ )
+                    AdminMenu.Items[i].Enabled = false;
         }
     }
 }

@@ -124,6 +124,12 @@ namespace Server
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                     c.Value.TcpSend( adminPacket );
                                 break;
+                            case PacketType.ENABLE_PAINTING:
+                                EnablePaintingPacket enablePainting = (EnablePaintingPacket)packet;
+                                foreach ( KeyValuePair<int, Client> c in clients )
+                                    if ( c.Value != client )
+                                        c.Value.TcpSend( enablePainting );
+                                break;
                         }
                     }
                 }
