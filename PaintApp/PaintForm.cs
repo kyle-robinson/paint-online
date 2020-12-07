@@ -294,12 +294,24 @@ namespace PaintApp
 
         private void AdminMenu_Opening( object sender, System.ComponentModel.CancelEventArgs e )
         {
-            if ( isAdmin )
-                for ( int i = 0; i < AdminMenu.Items.Count; i++ )
-                    AdminMenu.Items[i].Enabled = true;
+            if ( isAdmin && PlayerList.SelectedItem != null )
+            {
+                if ( PlayerList.SelectedItem.ToString().Equals( "admin", StringComparison.InvariantCultureIgnoreCase ) )
+                {
+                    for ( int i = 0; i < AdminMenu.Items.Count; i++ )
+                        AdminMenu.Items[i].Visible = false;
+                }
+                else
+                {
+                    for ( int i = 0; i < AdminMenu.Items.Count; i++ )
+                        AdminMenu.Items[i].Visible = true;
+                }
+            }
             else
+            {
                 for ( int i = 0; i < AdminMenu.Items.Count; i++ )
-                    AdminMenu.Items[i].Enabled = false;
+                    AdminMenu.Items[i].Visible = false;
+            }
         }
     }
 }

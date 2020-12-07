@@ -310,26 +310,26 @@ namespace PaintApp
             // 
             // RemovePlayerItem
             // 
-            this.RemovePlayerItem.Enabled = false;
             this.RemovePlayerItem.Name = "RemovePlayerItem";
             this.RemovePlayerItem.Size = new System.Drawing.Size(180, 22);
             this.RemovePlayerItem.Text = "Remove Player";
+            this.RemovePlayerItem.Visible = false;
             this.RemovePlayerItem.Click += new System.EventHandler(this.RemovePlayerItem_Click);
             // 
             // DisablePaintingItem
             // 
-            this.DisablePaintingItem.Enabled = false;
             this.DisablePaintingItem.Name = "DisablePaintingItem";
             this.DisablePaintingItem.Size = new System.Drawing.Size(180, 22);
             this.DisablePaintingItem.Text = "Disable Painting";
+            this.DisablePaintingItem.Visible = false;
             this.DisablePaintingItem.Click += new System.EventHandler(this.DisablePaintingItem_Click);
             // 
             // ClearCanvasItem
             // 
-            this.ClearCanvasItem.Enabled = false;
             this.ClearCanvasItem.Name = "ClearCanvasItem";
             this.ClearCanvasItem.Size = new System.Drawing.Size(180, 22);
             this.ClearCanvasItem.Text = "Clear Canvas";
+            this.ClearCanvasItem.Visible = false;
             this.ClearCanvasItem.Click += new System.EventHandler(this.ClearCanvasItem_Click);
             // 
             // TopPanel
