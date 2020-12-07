@@ -77,6 +77,14 @@ namespace Server
                                         c.Value.TcpSend( new PenPacket( startColor ) );
                                     else
                                         c.Value.TcpSend( new PenPacket( Color.Black ) );
+
+                                    for ( int i = 0; i < clientNames.Count; i++ )
+                                    {
+                                        if ( i == 0 )
+                                            c.Value.TcpSend( new ClientListPacket( clientNames[i], true ) );
+                                        else
+                                            c.Value.TcpSend( new ClientListPacket( clientNames[i], false ) );
+                                    }
                                 }
                                 break;
                             case PacketType.CLIENT_LIST:

@@ -62,16 +62,18 @@ namespace PaintApp
             }
             else
             {
-                if ( removeText )
+                if ( message != null )
                 {
-                    playerNames.Clear();
-                    PlayerList.Items.Clear();
-                }
-
-                if ( !removeText )
-                {
-                    playerNames.Add( message );
-                    PlayerList.Items.Add( message );
+                    if ( removeText )
+                    {
+                        playerNames.Clear();
+                        PlayerList.Items.Clear();
+                    }
+                    else
+                    {
+                        playerNames.Add( message );
+                        PlayerList.Items.Add( message );
+                    }
                 }
 
                 if ( playerNames.Count != playerNames.Distinct().Count() )
