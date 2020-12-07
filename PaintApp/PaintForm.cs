@@ -68,8 +68,11 @@ namespace PaintApp
                     PlayerList.Items.Clear();
                 }
 
-                playerNames.Add( message );
-                PlayerList.Items.Add( message );
+                if ( !removeText )
+                {
+                    playerNames.Add( message );
+                    PlayerList.Items.Add( message );
+                }
 
                 if ( playerNames.Count != playerNames.Distinct().Count() )
                 {

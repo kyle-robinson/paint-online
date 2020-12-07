@@ -25,6 +25,7 @@ namespace Server
             tcpListerer = new TcpListener( localAddress, port );
             udpListener = new UdpClient( port );
             clientNames = new List<string>();
+            clientNames.Add( "Initial" );
         }
 
         public void Start()
