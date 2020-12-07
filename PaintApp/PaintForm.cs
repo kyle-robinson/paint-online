@@ -41,7 +41,10 @@ namespace PaintApp
             if ( Canvas.InvokeRequired )
                 Invoke( new Action( () => { UpdateCanvas( xPos, yPos, mouseLocation ); } ) );
             else
-                gfx.DrawLine( networkPen, new Point( xPos, yPos ), mouseLocation );
+            {
+                if ( connected )
+                    gfx.DrawLine( networkPen, new Point( xPos, yPos ), mouseLocation );
+            }
         }
 
         public void UpdatePen( Color penColor )
