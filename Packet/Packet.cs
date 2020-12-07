@@ -10,7 +10,8 @@ public enum PacketType
     LOGIN,
     PAINT,
     PEN,
-    CLEAR,
+    CLEAR_GLOBAL,
+    CLEAR_SINGLE,
     ADMIN,
     ENABLE_PAINTING
 }
@@ -81,11 +82,22 @@ public class PenPacket : Packet
 }
 
 [Serializable]
-public class ClearPacket : Packet
+public class ClearGlobalPacket : Packet
 {
-    public ClearPacket()
+    public ClearGlobalPacket()
     {
-        packetType = PacketType.CLEAR;
+        packetType = PacketType.CLEAR_GLOBAL;
+    }
+}
+
+[Serializable]
+public class ClearSinglePacket : Packet
+{
+    public string playerName;
+    public ClearSinglePacket( string playerName )
+    {
+        this.playerName = playerName;
+        packetType = PacketType.CLEAR_SINGLE;
     }
 }
 

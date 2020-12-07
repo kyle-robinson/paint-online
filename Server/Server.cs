@@ -113,10 +113,16 @@ namespace Server
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                     c.Value.TcpSend( penPacket );
                                 break;
-                            case PacketType.CLEAR:
-                                ClearPacket clearPacket = (ClearPacket)packet;
+                            case PacketType.CLEAR_GLOBAL:
+                                ClearGlobalPacket clearGlobalPacket = (ClearGlobalPacket)packet;
                                 foreach ( KeyValuePair<int, Client> c in clients )
-                                    c.Value.TcpSend( clearPacket );
+                                    c.Value.TcpSend( clearGlobalPacket );
+                                break;
+                            case PacketType.CLEAR_SINGLE:
+                                ClearSinglePacket clearSinglePacket = (ClearSinglePacket)packet;
+                                foreach ( KeyValuePair<int, Client> c in clients )
+                                    if ( c.Value != client )
+                                        c.Value.TcpSend( clearSinglePacket );
                                 break;
                             case PacketType.ADMIN:
                                 AdminPacket adminPacket = (AdminPacket)packet;

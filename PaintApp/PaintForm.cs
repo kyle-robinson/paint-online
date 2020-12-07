@@ -263,7 +263,7 @@ namespace PaintApp
         private void ClearGlobalButton_Click( object sender, EventArgs e )
         {
             ClearCanvas();
-            client.TcpSendMessage( new ClearPacket() );
+            client.TcpSendMessage( new ClearGlobalPacket() );
         }
 
         private void RemovePlayerItem_Click( object sender, EventArgs e )
@@ -289,7 +289,7 @@ namespace PaintApp
 
         private void ClearCanvasItem_Click( object sender, EventArgs e )
         {
-            
+            client.TcpSendMessage( new ClearSinglePacket( PlayerList.SelectedItem.ToString() ) );
         }
 
         private void AdminMenu_Opening( object sender, System.ComponentModel.CancelEventArgs e )

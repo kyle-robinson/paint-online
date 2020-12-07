@@ -96,8 +96,13 @@ namespace PaintApp
                             PenPacket penPacket = (PenPacket)packet;
                             paintForm.UpdatePen( penPacket.penColor );
                             break;
-                        case PacketType.CLEAR:
+                        case PacketType.CLEAR_GLOBAL:
                             paintForm.ClearCanvas();
+                            break;
+                        case PacketType.CLEAR_SINGLE:
+                            ClearSinglePacket clearSinglePacket = (ClearSinglePacket)packet;
+                            if ( clearSinglePacket.playerName == clientName )
+                                paintForm.ClearCanvas();
                             break;
                         case PacketType.ADMIN:
                             AdminPacket adminPacket = (AdminPacket)packet;
