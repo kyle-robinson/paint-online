@@ -17,6 +17,7 @@ namespace Server
         private UdpClient udpListener;
         private TcpListener tcpListerer;
         private List<string> clientNames;
+        private bool adminIsConnected = false;
         private ConcurrentDictionary<int, Client> clients;
 
         public Server( string ipAddress, int port )
@@ -85,6 +86,8 @@ namespace Server
                                         else
                                             c.Value.TcpSend( new ClientListPacket( clientNames[i], false ) );
                                     }
+
+                                    c.Value.TcpSend( new AdminPacket( adminIsConnected ) );
                                 }
                                 break;
                             case PacketType.CLIENT_LIST:
@@ -114,6 +117,12 @@ namespace Server
                                 ClearPacket clearPacket = (ClearPacket)packet;
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                     c.Value.TcpSend( clearPacket );
+                                break;
+                            case PacketType.ADMIN:
+                                AdminPacket adminPacket = (AdminPacket)packet;
+                                adminIsConnected = adminPacket.adminConnected;
+                                foreach ( KeyValuePair<int, Client> c in clients )
+                                    c.Value.TcpSend( adminPacket );
                                 break;
                         }
                     }

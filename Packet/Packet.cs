@@ -10,7 +10,8 @@ public enum PacketType
     LOGIN,
     PAINT,
     PEN,
-    CLEAR
+    CLEAR,
+    ADMIN
 }
 
 [Serializable]
@@ -84,5 +85,16 @@ public class ClearPacket : Packet
     public ClearPacket()
     {
         packetType = PacketType.CLEAR;
+    }
+}
+
+[Serializable]
+public class AdminPacket : Packet
+{
+    public bool adminConnected;
+    public AdminPacket( bool adminConnected )
+    {
+        this.adminConnected = adminConnected;
+        packetType = PacketType.ADMIN;
     }
 }

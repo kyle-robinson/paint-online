@@ -99,6 +99,10 @@ namespace PaintApp
                         case PacketType.CLEAR:
                             paintForm.ClearCanvas();
                             break;
+                        case PacketType.ADMIN:
+                            AdminPacket adminPacket = (AdminPacket)packet;
+                            paintForm.adminConnected = adminPacket.adminConnected;
+                            break;
                     }
                 }
             }

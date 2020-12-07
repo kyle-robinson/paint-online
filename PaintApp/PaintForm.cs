@@ -18,6 +18,7 @@ namespace PaintApp
         bool moving = false;
         private bool connected = false;
         private bool disconnected = true;
+        public bool adminConnected = false;
         private bool nicknameEntered = false;
 
         public PaintForm( Client client )
@@ -108,36 +109,46 @@ namespace PaintApp
             }
         }
 
+        private void Connect()
+        {
+            Canvas.Enabled = true;
+            Canvas.BackColor = Color.White;
+
+            connected = true;
+            ConnectButton.Enabled = false;
+
+            disconnected = false;
+            DisconnectButton.Enabled = true;
+
+            ClearLocalButton.Enabled = true;
+            ClearGlobalButton.Enabled = true;
+        }
+
         private void ConnectButton_Click( object sender, EventArgs e )
         {
             if ( disconnected && nicknameEntered )
             {
-                Canvas.Enabled = true;
-                Canvas.BackColor = Color.White;
-
-                connected = true;
-                ConnectButton.Enabled = false;
-
-                disconnected = false;
-                DisconnectButton.Enabled = true;
-
-                ClearLocalButton.Enabled = true;
-                ClearGlobalButton.Enabled = true;
-
-                if ( UsernameTextBox.Text.Equals( "admin", StringComparison.InvariantCultureIgnoreCase ) )
+                if ( UsernameTextBox.Text.Equals( "admin", StringComparison.InvariantCultureIgnoreCase ) && adminConnected )
                 {
+                    UpdateServerWindow( "Admin already connected!", Color.Black, Color.IndianRed );
+                }
+                else if ( UsernameTextBox.Text.Equals( "admin", StringComparison.InvariantCultureIgnoreCase ) && !adminConnected )
+                {
+                    Connect();
                     ClearGlobalButton.Visible = true;
                     ClearLocalButton.Text = "Clear Canvas (Local)";
+                    client.TcpSendMessage( new AdminPacket( true ) );
                     UpdateServerWindow( "Connected as Admin", Color.Black, Color.MediumPurple );
+                    client.TcpSendMessage( new ClientListPacket( UsernameTextBox.Text, false ) );
                 }
                 else
                 {
+                    Connect();
                     ClearGlobalButton.Visible = false;
                     ClearLocalButton.Text = "Clear Canvas";
                     UpdateServerWindow( "Connected", Color.Black, Color.LightGreen );
-                }                
-                
-                client.TcpSendMessage( new ClientListPacket( UsernameTextBox.Text, false ) );
+                    client.TcpSendMessage( new ClientListPacket( UsernameTextBox.Text, false ) );
+                }
             }
 
             if ( disconnected && !nicknameEntered )
@@ -162,6 +173,9 @@ namespace PaintApp
 
                 UpdateServerWindow( "Disconnected", Color.Black, Color.IndianRed );
                 client.TcpSendMessage( new ClientListPacket( UsernameTextBox.Text, true ) );
+
+                if ( UsernameTextBox.Text.Equals( "admin", StringComparison.InvariantCultureIgnoreCase ) && adminConnected )
+                    client.TcpSendMessage( new AdminPacket( false ) );
             }
         }
 
