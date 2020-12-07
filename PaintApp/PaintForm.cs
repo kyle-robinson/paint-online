@@ -41,15 +41,52 @@ namespace PaintApp
             networkPen.StartCap = networkPen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
         }
 
-        public void UpdateCanvas( int xPos, int yPos, Point mouseLocation )
+        /*   COLOURBOX UPDATING   */
+        private void ColourBox_Click( object sender, EventArgs e )
         {
-            if ( Canvas.InvokeRequired )
-                Invoke( new Action( () => { UpdateCanvas( xPos, yPos, mouseLocation ); } ) );
-            else
+            PictureBox pictureBox = (PictureBox)sender;
+            pen.Color = pictureBox.BackColor;
+            client.TcpSendMessage( new PenPacket( pen.Color ) );
+        }
+
+        private void ColourBox_MouseEnter( object sender, EventArgs e )
+        {
+            Canvas.Cursor = Cursors.Hand;
+        }
+
+        private void ColourBox_MouseLeave( object sender, EventArgs e )
+        {
+            Canvas.Cursor = Cursors.Default;
+        }
+
+        /*   CANVAS UPDATING   */
+        private void Canvas_MouseMove( object sender, MouseEventArgs e )
+        {
+            // allow painting if mouse is moving and pen is enabled
+            if ( moving && x != -1 && y != -1 && penEnabled )
             {
-                if ( connected )
-                    gfx.DrawLine( networkPen, new Point( xPos, yPos ), mouseLocation );
+                client.UdpSendMessage( new PaintPacket( x, y, e.Location ) );
+                gfx.DrawLine( pen, new Point( x, y ), e.Location );
+                Canvas.Cursor = Cursors.Cross;
+                x = e.X;
+                y = e.Y;
             }
+        }
+
+        private void Canvas_MouseUp( object sender, MouseEventArgs e )
+        {
+            Canvas.Cursor = Cursors.Default;
+            moving = false;
+            x = -1;
+            y = -1;
+        }
+
+        private void Canvas_MouseDown( object sender, MouseEventArgs e )
+        {
+            client.TcpSendMessage( new PenPacket( pen.Color ) );
+            moving = true;
+            x = e.X;
+            y = e.Y;
         }
 
         public void UpdatePen( Color penColor )
@@ -62,57 +99,18 @@ namespace PaintApp
             Canvas.Invalidate();
         }
 
-        public void UpdatePlayerList( string message, bool removeText )
+        private void ClearLocalButton_Click( object sender, EventArgs e )
         {
-            if ( PlayerList.InvokeRequired )
-            {
-                Invoke( new Action( () => { UpdatePlayerList( message, removeText ); } ) );
-            }
-            else
-            {
-                if ( message != null )
-                {
-                    if ( removeText )
-                    {
-                        playerNames.Clear();
-                        PlayerList.Items.Clear();
-                    }
-                    else
-                    {
-                        playerNames.Add( message );
-                        PlayerList.Items.Add( message );
-                    }
-                }
-
-                if ( playerNames.Count != playerNames.Distinct().Count() )
-                {
-                    playerNames.Remove( message );
-                    PlayerList.Items.Remove( message );
-                }
-            }
+            ClearCanvas();
         }
 
-        public void UpdateServerWindow( string message, Color foreColor, Color backColor )
+        private void ClearGlobalButton_Click( object sender, EventArgs e )
         {
-            if ( ServerWindow.InvokeRequired )
-            {
-                Invoke( new Action( () => { UpdateServerWindow( message, foreColor, backColor ); } ) );
-            }
-            else
-            {
-                ServerWindow.SelectionStart = ServerWindow.TextLength;
-                ServerWindow.SelectionLength = 0;
-
-                ServerWindow.SelectionColor = foreColor;
-                ServerWindow.SelectionBackColor = backColor;
-                ServerWindow.AppendText( message + "\n" );
-                ServerWindow.SelectionColor = ServerWindow.ForeColor;
-
-                ServerWindow.SelectionStart = ServerWindow.Text.Length;
-                ServerWindow.ScrollToCaret();
-            }
+            ClearCanvas();
+            client.TcpSendMessage( new ClearGlobalPacket() );
         }
 
+        /*   CONNECTION / DISCONNECTING CLIENTS   */
         private void Connect()
         {
             UsernameButton.Enabled = false;
@@ -133,8 +131,10 @@ namespace PaintApp
 
         private void ConnectButton_Click( object sender, EventArgs e )
         {
+            // connect if not already connected and username is valid
             if ( disconnected && nicknameEntered )
             {
+                // determine if admin is already connected / otherwise make user admin or player
                 if ( UsernameTextBox.Text.Equals( "admin", StringComparison.InvariantCultureIgnoreCase ) && adminConnected )
                 {
                     UpdateServerWindow( "Admin already connected!", Color.Black, Color.IndianRed );
@@ -191,6 +191,7 @@ namespace PaintApp
             }
         }
 
+        /*   SET CLIENT USERNAME   */
         private void UsernameButton_Click( object sender, EventArgs e )
         {
             if ( UsernameTextBox.Text != "" && UsernameTextBox.Text != "Enter username..." && disconnected )
@@ -206,64 +207,74 @@ namespace PaintApp
             }
         }
 
-        private void ColourBox_Click( object sender, EventArgs e )
+        /*   NETWORK UPDATE FUNCTIONS   */
+        public void UpdateCanvas( int xPos, int yPos, Point mouseLocation )
         {
-            PictureBox pictureBox = (PictureBox)sender;
-            pen.Color = pictureBox.BackColor;
-            client.TcpSendMessage( new PenPacket( pen.Color ) );
-        }
-
-        private void ColourBox_MouseEnter( object sender, EventArgs e )
-        {
-            Canvas.Cursor = Cursors.Hand;
-        }
-
-        private void ColourBox_MouseLeave( object sender, EventArgs e )
-        {
-            Canvas.Cursor = Cursors.Default;
-        }
-
-        private void Canvas_MouseDown( object sender, MouseEventArgs e )
-        {
-            client.TcpSendMessage( new PenPacket( pen.Color ) );
-            moving = true;
-            x = e.X;
-            y = e.Y;
-        }
-
-        private void Canvas_MouseMove( object sender, MouseEventArgs e )
-        {
-            if ( moving && x != -1 && y != -1 && penEnabled )
+            if ( Canvas.InvokeRequired )
+                Invoke( new Action( () => { UpdateCanvas( xPos, yPos, mouseLocation ); } ) );
+            else
             {
-                client.UdpSendMessage( new PaintPacket( x, y, e.Location ) );
-                gfx.DrawLine( pen, new Point( x, y ), e.Location );
-                Canvas.Cursor = Cursors.Cross;
-                x = e.X;
-                y = e.Y;
+                if ( connected )
+                    gfx.DrawLine( networkPen, new Point( xPos, yPos ), mouseLocation );
             }
         }
 
-        private void Canvas_MouseUp( object sender, MouseEventArgs e )
+        public void UpdatePlayerList( string message, bool removeText )
         {
-            Canvas.Cursor = Cursors.Default;
-            moving = false;
-            x = -1;
-            y = -1;
+            if ( PlayerList.InvokeRequired )
+            {
+                Invoke( new Action( () => { UpdatePlayerList( message, removeText ); } ) );
+            }
+            else
+            {
+                // add or remove players from the list as they connect/disconnect
+                if ( message != null )
+                {
+                    if ( removeText )
+                    {
+                        playerNames.Clear();
+                        PlayerList.Items.Clear();
+                    }
+                    else
+                    {
+                        playerNames.Add( message );
+                        PlayerList.Items.Add( message );
+                    }
+                }
+
+                if ( playerNames.Count != playerNames.Distinct().Count() )
+                {
+                    playerNames.Remove( message );
+                    PlayerList.Items.Remove( message );
+                }
+            }
         }
 
-        private void ClearLocalButton_Click( object sender, EventArgs e )
+        public void UpdateServerWindow( string message, Color foreColor, Color backColor )
         {
-            ClearCanvas();
+            if ( ServerWindow.InvokeRequired )
+            {
+                Invoke( new Action( () => { UpdateServerWindow( message, foreColor, backColor ); } ) );
+            }
+            else
+            {
+                ServerWindow.SelectionStart = ServerWindow.TextLength;
+                ServerWindow.SelectionLength = 0;
+
+                ServerWindow.SelectionColor = foreColor;
+                ServerWindow.SelectionBackColor = backColor;
+                ServerWindow.AppendText( message + "\n" );
+                ServerWindow.SelectionColor = ServerWindow.ForeColor;
+
+                ServerWindow.SelectionStart = ServerWindow.Text.Length;
+                ServerWindow.ScrollToCaret();
+            }
         }
 
-        private void ClearGlobalButton_Click( object sender, EventArgs e )
-        {
-            ClearCanvas();
-            client.TcpSendMessage( new ClearGlobalPacket() );
-        }
-
+        /*   ADMIN CONTEXT MENU   */
         private void DisablePaintingItem_Click( object sender, EventArgs e )
         {
+            // disable painting on the canvas for selected player
             if ( !noPaintPlayers.Contains( PlayerList.SelectedItem.ToString() ) )
             {
                 DisablePaintingItem.Text = "Enable Painting";
