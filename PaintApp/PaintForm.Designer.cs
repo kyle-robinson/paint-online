@@ -414,10 +414,11 @@ namespace PaintApp
             this.UsernameTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.UsernameTextBox.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UsernameTextBox.Location = new System.Drawing.Point(17, 13);
+            this.UsernameTextBox.MaxLength = 10;
             this.UsernameTextBox.Name = "UsernameTextBox";
             this.UsernameTextBox.Size = new System.Drawing.Size(113, 14);
             this.UsernameTextBox.TabIndex = 0;
-            this.UsernameTextBox.Text = "Enter username...";
+            this.UsernameTextBox.Text = "Username...";
             this.UsernameTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UsernameTextBox_KeyDown);
             // 
             // ClearLocalButton
