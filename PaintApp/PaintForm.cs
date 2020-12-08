@@ -192,7 +192,7 @@ namespace PaintApp
         }
 
         /*   SET CLIENT USERNAME   */
-        private void UsernameButton_Click( object sender, EventArgs e )
+        private void SetUsername()
         {
             if ( UsernameTextBox.Text != "" && UsernameTextBox.Text != "Enter username..." && disconnected )
             { 
@@ -204,6 +204,21 @@ namespace PaintApp
             {
                 UpdateServerWindow( "Invalid username.", Color.Black, Color.IndianRed );
                 nicknameEntered = false;
+            }
+        }
+
+        private void UsernameButton_Click( object sender, EventArgs e )
+        {
+            SetUsername();
+        }
+
+        private void UsernameTextBox_KeyDown( object sender, KeyEventArgs e )
+        {
+            if ( e.KeyCode == Keys.Enter )
+            {
+                e.SuppressKeyPress = true;
+                SetUsername();
+                ConnectButton.Focus();
             }
         }
 

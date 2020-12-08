@@ -303,13 +303,13 @@ namespace PaintApp
             this.DisablePaintingItem,
             this.ClearCanvasItem});
             this.AdminMenu.Name = "AdminMenu";
-            this.AdminMenu.Size = new System.Drawing.Size(181, 70);
+            this.AdminMenu.Size = new System.Drawing.Size(160, 48);
             this.AdminMenu.Opening += new System.ComponentModel.CancelEventHandler(this.AdminMenu_Opening);
             // 
             // DisablePaintingItem
             // 
             this.DisablePaintingItem.Name = "DisablePaintingItem";
-            this.DisablePaintingItem.Size = new System.Drawing.Size(180, 22);
+            this.DisablePaintingItem.Size = new System.Drawing.Size(159, 22);
             this.DisablePaintingItem.Text = "Disable Painting";
             this.DisablePaintingItem.Visible = false;
             this.DisablePaintingItem.Click += new System.EventHandler(this.DisablePaintingItem_Click);
@@ -317,7 +317,7 @@ namespace PaintApp
             // ClearCanvasItem
             // 
             this.ClearCanvasItem.Name = "ClearCanvasItem";
-            this.ClearCanvasItem.Size = new System.Drawing.Size(180, 22);
+            this.ClearCanvasItem.Size = new System.Drawing.Size(159, 22);
             this.ClearCanvasItem.Text = "Clear Canvas";
             this.ClearCanvasItem.Visible = false;
             this.ClearCanvasItem.Click += new System.EventHandler(this.ClearCanvasItem_Click);
@@ -418,6 +418,7 @@ namespace PaintApp
             this.UsernameTextBox.Size = new System.Drawing.Size(113, 14);
             this.UsernameTextBox.TabIndex = 0;
             this.UsernameTextBox.Text = "Enter username...";
+            this.UsernameTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UsernameTextBox_KeyDown);
             // 
             // ClearLocalButton
             // 
