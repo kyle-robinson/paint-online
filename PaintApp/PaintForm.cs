@@ -39,6 +39,9 @@ namespace PaintApp
             
             networkPen = new Pen( Color.Black, 5 );
             networkPen.StartCap = networkPen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
+
+            ConnectButton.Location = new Point( 274, 13 );
+            DisconnectButton.Location = new Point( 371, 13 );
         }
 
         /*   COLOURBOX UPDATING   */
@@ -143,7 +146,12 @@ namespace PaintApp
                 {
                     Connect();
                     isAdmin = true;
+                    SpawnClientButton.Visible = true;
                     ClearGlobalButton.Visible = true;
+
+                    ConnectButton.Location = new Point( 226, 13 );
+                    DisconnectButton.Location = new Point( 323, 13 );
+
                     ClearLocalButton.Text = "Clear Canvas (Local)";
                     client.TcpSendMessage( new AdminPacket( true ) );
                     UpdateServerWindow( "Connected as Admin", Color.Black, Color.MediumPurple );
@@ -153,7 +161,12 @@ namespace PaintApp
                 {
                     Connect();
                     isAdmin = false;
+                    SpawnClientButton.Visible = false;
                     ClearGlobalButton.Visible = false;
+
+                    ConnectButton.Location = new Point( 274, 13 );
+                    DisconnectButton.Location = new Point( 371, 13 );
+
                     ClearLocalButton.Text = "Clear Canvas";
                     UpdateServerWindow( "Connected", Color.Black, Color.LightGreen );
                     client.TcpSendMessage( new ClientListPacket( UsernameTextBox.Text, false ) );
@@ -194,7 +207,7 @@ namespace PaintApp
         /*   SET CLIENT USERNAME   */
         private void SetUsername()
         {
-            if ( UsernameTextBox.Text != "" && UsernameTextBox.Text != "Enter username..." && disconnected )
+            if ( UsernameTextBox.Text != "" && UsernameTextBox.Text != "Username..." && disconnected )
             { 
                 UpdateServerWindow( "Username set.", Color.Black, Color.SkyBlue );
                 client.clientName = UsernameTextBox.Text;
@@ -329,6 +342,12 @@ namespace PaintApp
                 for ( int i = 0; i < AdminMenu.Items.Count; i++ )
                     AdminMenu.Items[i].Visible = false;
             }
+        }
+
+        /*   SPAWN NEW CLIENTS   */
+        private void SpawnClientButton_Click( object sender, EventArgs e )
+        {
+            System.Diagnostics.Process.Start( Application.ExecutablePath );
         }
     }
 }

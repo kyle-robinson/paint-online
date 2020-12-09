@@ -59,6 +59,7 @@ namespace PaintApp
             this.UsernameUnderline = new System.Windows.Forms.Panel();
             this.UsernameTextBox = new System.Windows.Forms.TextBox();
             this.ClearLocalButton = new System.Windows.Forms.Button();
+            this.SpawnClientButton = new System.Windows.Forms.Button();
             this.Canvas.SuspendLayout();
             this.ColourPalette.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BlackBox)).BeginInit();
@@ -242,6 +243,7 @@ namespace PaintApp
             // 
             // ServerWindow
             // 
+            this.ServerWindow.BackColor = System.Drawing.Color.White;
             this.ServerWindow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ServerWindow.Location = new System.Drawing.Point(14, 228);
             this.ServerWindow.Name = "ServerWindow";
@@ -295,7 +297,7 @@ namespace PaintApp
             this.PlayerList.Location = new System.Drawing.Point(14, 29);
             this.PlayerList.Name = "PlayerList";
             this.PlayerList.Size = new System.Drawing.Size(110, 154);
-            this.PlayerList.TabIndex = 0;
+            this.PlayerList.TabIndex = 7;
             // 
             // AdminMenu
             // 
@@ -325,6 +327,7 @@ namespace PaintApp
             // TopPanel
             // 
             this.TopPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TopPanel.Controls.Add(this.SpawnClientButton);
             this.TopPanel.Controls.Add(this.ClearGlobalButton);
             this.TopPanel.Controls.Add(this.DisconnectButton);
             this.TopPanel.Controls.Add(this.ConnectButton);
@@ -362,7 +365,7 @@ namespace PaintApp
             this.DisconnectButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.DisconnectButton.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DisconnectButton.ForeColor = System.Drawing.Color.Red;
-            this.DisconnectButton.Location = new System.Drawing.Point(371, 13);
+            this.DisconnectButton.Location = new System.Drawing.Point(323, 13);
             this.DisconnectButton.Name = "DisconnectButton";
             this.DisconnectButton.Size = new System.Drawing.Size(91, 23);
             this.DisconnectButton.TabIndex = 3;
@@ -377,7 +380,7 @@ namespace PaintApp
             this.ConnectButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.ConnectButton.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ConnectButton.ForeColor = System.Drawing.Color.Lime;
-            this.ConnectButton.Location = new System.Drawing.Point(274, 13);
+            this.ConnectButton.Location = new System.Drawing.Point(226, 13);
             this.ConnectButton.Name = "ConnectButton";
             this.ConnectButton.Size = new System.Drawing.Size(91, 23);
             this.ConnectButton.TabIndex = 2;
@@ -432,10 +435,26 @@ namespace PaintApp
             this.ClearLocalButton.Location = new System.Drawing.Point(662, 13);
             this.ClearLocalButton.Name = "ClearLocalButton";
             this.ClearLocalButton.Size = new System.Drawing.Size(138, 23);
-            this.ClearLocalButton.TabIndex = 4;
+            this.ClearLocalButton.TabIndex = 6;
             this.ClearLocalButton.Text = "Clear Canvas";
             this.ClearLocalButton.UseVisualStyleBackColor = false;
             this.ClearLocalButton.Click += new System.EventHandler(this.ClearLocalButton_Click);
+            // 
+            // SpawnClientButton
+            // 
+            this.SpawnClientButton.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.SpawnClientButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.SpawnClientButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.SpawnClientButton.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SpawnClientButton.ForeColor = System.Drawing.Color.MediumPurple;
+            this.SpawnClientButton.Location = new System.Drawing.Point(420, 13);
+            this.SpawnClientButton.Name = "SpawnClientButton";
+            this.SpawnClientButton.Size = new System.Drawing.Size(91, 23);
+            this.SpawnClientButton.TabIndex = 4;
+            this.SpawnClientButton.Text = "Spawn Client";
+            this.SpawnClientButton.UseVisualStyleBackColor = false;
+            this.SpawnClientButton.Visible = false;
+            this.SpawnClientButton.Click += new System.EventHandler(this.SpawnClientButton_Click);
             // 
             // PaintForm
             // 
@@ -499,6 +518,7 @@ namespace PaintApp
         private System.Windows.Forms.ContextMenuStrip AdminMenu;
         private System.Windows.Forms.ToolStripMenuItem DisablePaintingItem;
         private System.Windows.Forms.ToolStripMenuItem ClearCanvasItem;
+        private System.Windows.Forms.Button SpawnClientButton;
     }
 }
 
