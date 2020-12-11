@@ -88,12 +88,12 @@ namespace Server
                                             c.Value.TcpSend( new ClientListPacket( clientNames[i], false ) );
                                     }
 
-                                    c.Value.TcpSend( new AdminPacket( adminIsConnected ) );
+                                    c.Value.TcpSend( new EncryptedAdminPacket( BitConverter.GetBytes( adminIsConnected ) ) );
                                 }
                                 break;
-                            case PacketType.ADMIN:
-                                AdminPacket adminPacket = (AdminPacket)packet;
-                                adminIsConnected = adminPacket.adminConnected;
+                            case PacketType.ENCRYPTED_ADMIN:
+                                EncryptedAdminPacket adminPacket = (EncryptedAdminPacket)packet;
+                                adminIsConnected = BitConverter.ToBoolean( adminPacket.adminConnected, 0 );
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                     c.Value.TcpSend( adminPacket );
                                 break;

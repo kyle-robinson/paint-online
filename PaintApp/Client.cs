@@ -95,9 +95,9 @@ namespace PaintApp
                             LoginPacket loginPacket = (LoginPacket)packet;
                             ServerKey = loginPacket.PublicKey;
                             break;
-                        case PacketType.ADMIN:
-                            AdminPacket adminPacket = (AdminPacket)packet;
-                            paintForm.adminConnected = adminPacket.adminConnected;
+                        case PacketType.ENCRYPTED_ADMIN:
+                            EncryptedAdminPacket adminPacket = (EncryptedAdminPacket)packet;
+                            paintForm.adminConnected = BitConverter.ToBoolean( adminPacket.adminConnected, 0 );
                             break;
                         case PacketType.CLIENT_LIST:
                             ClientListPacket clientListPacket = (ClientListPacket)packet;

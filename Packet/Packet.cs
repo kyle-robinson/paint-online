@@ -5,8 +5,8 @@ using System.Security.Cryptography;
 
 public enum PacketType
 {
-    ADMIN,
     LOGIN,
+    ENCRYPTED_ADMIN,
     CLIENT_LIST,
     ENABLE_PAINTING,
     PEN,
@@ -36,13 +36,13 @@ public class LoginPacket : Packet
 }
 
 [Serializable]
-public class AdminPacket : Packet
+public class EncryptedAdminPacket : Packet
 {
-    public bool adminConnected;
-    public AdminPacket( bool adminConnected )
+    public byte[] adminConnected;
+    public EncryptedAdminPacket( byte[] adminConnected )
     {
         this.adminConnected = adminConnected;
-        packetType = PacketType.ADMIN;
+        packetType = PacketType.ENCRYPTED_ADMIN;
     }
 }
 
