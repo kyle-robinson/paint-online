@@ -56,7 +56,7 @@ namespace PaintApp
                 Thread udpThread = new Thread( () => { UdpProcessServerResponse(); } );
                 udpThread.Start();
 
-                Login();
+                TcpSendMessage( new LoginPacket( (IPEndPoint)udpClient.Client.LocalEndPoint ) );
 
                 paintForm.ShowDialog();
             }
@@ -71,11 +71,6 @@ namespace PaintApp
             }
         }
 
-        public void Login()
-        {
-            TcpSendMessage( new LoginPacket( (IPEndPoint)udpClient.Client.LocalEndPoint ) );
-        }
-
         private void TcpProcessServerResponse()
         {
             try
@@ -88,6 +83,10 @@ namespace PaintApp
                     Packet packet = formatter.Deserialize( memoryStream ) as Packet;
                     switch ( packet.packetType )
                     {
+                        case PacketType.ADMIN:
+                            AdminPacket adminPacket = (AdminPacket)packet;
+                            paintForm.adminConnected = adminPacket.adminConnected;
+                            break;
                         case PacketType.CLIENT_LIST:
                             ClientListPacket clientListPacket = (ClientListPacket)packet;
                             paintForm.UpdatePlayerList( clientListPacket.name, clientListPacket.removeText );
@@ -96,22 +95,18 @@ namespace PaintApp
                             PenPacket penPacket = (PenPacket)packet;
                             paintForm.UpdatePen( penPacket.penColor );
                             break;
-                        case PacketType.CLEAR_GLOBAL:
-                            paintForm.ClearCanvas();
+                        case PacketType.ENABLE_PAINTING:
+                            EnablePaintingPacket enablePainting = (EnablePaintingPacket)packet;
+                            if ( enablePainting.playerName == clientName )
+                                paintForm.penEnabled = enablePainting.enablePainting;
                             break;
                         case PacketType.CLEAR_SINGLE:
                             ClearSinglePacket clearSinglePacket = (ClearSinglePacket)packet;
                             if ( clearSinglePacket.playerName == clientName )
                                 paintForm.ClearCanvas();
                             break;
-                        case PacketType.ADMIN:
-                            AdminPacket adminPacket = (AdminPacket)packet;
-                            paintForm.adminConnected = adminPacket.adminConnected;
-                            break;
-                        case PacketType.ENABLE_PAINTING:
-                            EnablePaintingPacket enablePainting = (EnablePaintingPacket)packet;
-                            if ( enablePainting.playerName == clientName )
-                                paintForm.penEnabled = enablePainting.enablePainting;
+                        case PacketType.CLEAR_GLOBAL:
+                            paintForm.ClearCanvas();
                             break;
                     }
                 }

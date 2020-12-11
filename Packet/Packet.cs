@@ -4,16 +4,14 @@ using System.Drawing;
 
 public enum PacketType
 {
-    EMPTY,
-    NICKNAME,
-    CLIENT_LIST,
-    LOGIN,
-    PAINT,
-    PEN,
-    CLEAR_GLOBAL,
-    CLEAR_SINGLE,
     ADMIN,
-    ENABLE_PAINTING
+    LOGIN,
+    CLIENT_LIST,
+    ENABLE_PAINTING,
+    PEN,
+    PAINT,
+    CLEAR_SINGLE,
+    CLEAR_GLOBAL
 }
 
 [Serializable]
@@ -22,12 +20,26 @@ public class Packet
     public PacketType packetType { get; set; }
 }
 
+/*   ADMINISTRATION   */
 [Serializable]
-public class EmptyPacket : Packet
+public class LoginPacket : Packet
 {
-    public EmptyPacket()
+    public IPEndPoint EndPoint;
+    public LoginPacket( IPEndPoint EndPoint )
     {
-        packetType = PacketType.EMPTY;
+        this.EndPoint = EndPoint;
+        packetType = PacketType.LOGIN;
+    }
+}
+
+[Serializable]
+public class AdminPacket : Packet
+{
+    public bool adminConnected;
+    public AdminPacket( bool adminConnected )
+    {
+        this.adminConnected = adminConnected;
+        packetType = PacketType.ADMIN;
     }
 }
 
@@ -44,17 +56,7 @@ public class ClientListPacket : Packet
     }
 }
 
-[Serializable]
-public class LoginPacket : Packet
-{
-    public IPEndPoint EndPoint;
-    public LoginPacket( IPEndPoint EndPoint )
-    {
-        this.EndPoint = EndPoint;
-        packetType = PacketType.LOGIN;
-    }
-}
-
+/*   PAINTING   */
 [Serializable]
 public class PaintPacket : Packet
 {
@@ -82,11 +84,15 @@ public class PenPacket : Packet
 }
 
 [Serializable]
-public class ClearGlobalPacket : Packet
+public class EnablePaintingPacket : Packet
 {
-    public ClearGlobalPacket()
+    public string playerName;
+    public bool enablePainting;
+    public EnablePaintingPacket( string playerName, bool enablePainting )
     {
-        packetType = PacketType.CLEAR_GLOBAL;
+        this.playerName = playerName;
+        this.enablePainting = enablePainting;
+        packetType = PacketType.ENABLE_PAINTING;
     }
 }
 
@@ -102,25 +108,10 @@ public class ClearSinglePacket : Packet
 }
 
 [Serializable]
-public class AdminPacket : Packet
+public class ClearGlobalPacket : Packet
 {
-    public bool adminConnected;
-    public AdminPacket( bool adminConnected )
+    public ClearGlobalPacket()
     {
-        this.adminConnected = adminConnected;
-        packetType = PacketType.ADMIN;
-    }
-}
-
-[Serializable]
-public class EnablePaintingPacket : Packet
-{
-    public string playerName;
-    public bool enablePainting;
-    public EnablePaintingPacket( string playerName, bool enablePainting )
-    {
-        this.playerName = playerName;
-        this.enablePainting = enablePainting;
-        packetType = PacketType.ENABLE_PAINTING;
+        packetType = PacketType.CLEAR_GLOBAL;
     }
 }

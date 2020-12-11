@@ -72,11 +72,10 @@ namespace Server
                             case PacketType.LOGIN:
                                 LoginPacket loginPacket = (LoginPacket)packet;
                                 clients[index - 1].endPoint = loginPacket.EndPoint;
+                                client.TcpSend( new PenPacket( startColor ) );
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                 {
-                                    if ( c.Value == client )
-                                        c.Value.TcpSend( new PenPacket( startColor ) );
-                                    else
+                                    if ( c.Value != client )
                                         c.Value.TcpSend( new PenPacket( Color.Black ) );
 
                                     for ( int i = 0; i < clientNames.Count; i++ )
@@ -89,6 +88,12 @@ namespace Server
 
                                     c.Value.TcpSend( new AdminPacket( adminIsConnected ) );
                                 }
+                                break;
+                            case PacketType.ADMIN:
+                                AdminPacket adminPacket = (AdminPacket)packet;
+                                adminIsConnected = adminPacket.adminConnected;
+                                foreach ( KeyValuePair<int, Client> c in clients )
+                                    c.Value.TcpSend( adminPacket );
                                 break;
                             case PacketType.CLIENT_LIST:
                                 ClientListPacket clientListPacket = (ClientListPacket)packet;
@@ -113,10 +118,11 @@ namespace Server
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                     c.Value.TcpSend( penPacket );
                                 break;
-                            case PacketType.CLEAR_GLOBAL:
-                                ClearGlobalPacket clearGlobalPacket = (ClearGlobalPacket)packet;
+                            case PacketType.ENABLE_PAINTING:
+                                EnablePaintingPacket enablePainting = (EnablePaintingPacket)packet;
                                 foreach ( KeyValuePair<int, Client> c in clients )
-                                    c.Value.TcpSend( clearGlobalPacket );
+                                    if ( c.Value != client )
+                                        c.Value.TcpSend( enablePainting );
                                 break;
                             case PacketType.CLEAR_SINGLE:
                                 ClearSinglePacket clearSinglePacket = (ClearSinglePacket)packet;
@@ -124,17 +130,10 @@ namespace Server
                                     if ( c.Value != client )
                                         c.Value.TcpSend( clearSinglePacket );
                                 break;
-                            case PacketType.ADMIN:
-                                AdminPacket adminPacket = (AdminPacket)packet;
-                                adminIsConnected = adminPacket.adminConnected;
+                            case PacketType.CLEAR_GLOBAL:
+                                ClearGlobalPacket clearGlobalPacket = (ClearGlobalPacket)packet;
                                 foreach ( KeyValuePair<int, Client> c in clients )
-                                    c.Value.TcpSend( adminPacket );
-                                break;
-                            case PacketType.ENABLE_PAINTING:
-                                EnablePaintingPacket enablePainting = (EnablePaintingPacket)packet;
-                                foreach ( KeyValuePair<int, Client> c in clients )
-                                    if ( c.Value != client )
-                                        c.Value.TcpSend( enablePainting );
+                                    c.Value.TcpSend( clearGlobalPacket );
                                 break;
                         }
                     }
