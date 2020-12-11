@@ -92,22 +92,27 @@ namespace PaintApp
                     switch ( packet.packetType )
                     {
                         case PacketType.LOGIN:
+                            Console.WriteLine( "Client [" + clientName + "] TCP 'Login' Packet Received" );
                             LoginPacket loginPacket = (LoginPacket)packet;
                             ServerKey = loginPacket.PublicKey;
                             break;
                         case PacketType.ENCRYPTED_ADMIN:
+                            Console.WriteLine( "Client [" + clientName + "] TCP 'Admin' Packet Received" );
                             EncryptedAdminPacket adminPacket = (EncryptedAdminPacket)packet;
                             paintForm.adminConnected = BitConverter.ToBoolean( adminPacket.adminConnected, 0 );
                             break;
                         case PacketType.ENCRYPTED_CLIENT_LIST:
+                            Console.WriteLine( "Client [" + clientName + "] TCP 'Client List' Packet Received" );
                             EncryptedClientListPacket clientListPacket = (EncryptedClientListPacket)packet;
                             paintForm.UpdatePlayerList( DecryptString( clientListPacket.name ), BitConverter.ToBoolean( clientListPacket.removeText, 0 ) );
                             break;
                         case PacketType.PEN:
+                            Console.WriteLine( "Client [" + clientName + "] TCP 'Pen' Packet Received" );
                             PenPacket penPacket = (PenPacket)packet;
                             paintForm.UpdatePen( penPacket.penColor );
                             break;
                         case PacketType.ENCRYPTED_ENABLE_PAINTING:
+                            Console.WriteLine( "Client [" + clientName + "] TCP 'Enable Painting' Packet Received" );
                             EncryptedEnablePaintingPacket enablePaintingPacket = (EncryptedEnablePaintingPacket)packet;
                             string enablePaintingString = DecryptString( enablePaintingPacket.playerName );
                             bool enablePaintingBool = BitConverter.ToBoolean( enablePaintingPacket.enablePainting, 0 );
@@ -115,12 +120,14 @@ namespace PaintApp
                                 paintForm.penEnabled = enablePaintingBool;
                             break;
                         case PacketType.ENCRYPTED_CLEAR_SINGLE:
+                            Console.WriteLine( "Client [" + clientName + "] TCP 'Clear Single' Packet Received" );
                             EncryptedClearSinglePacket clearSinglePacket = (EncryptedClearSinglePacket)packet;
                             string clearSingleString = DecryptString( clearSinglePacket.playerName );
                             if ( clearSingleString == clientName )
                                 paintForm.ClearCanvas();
                             break;
                         case PacketType.CLEAR_GLOBAL:
+                            Console.WriteLine( "Client [" + clientName + "] TCP 'Clear Global' Packet Received" );
                             paintForm.ClearCanvas();
                             break;
                     }

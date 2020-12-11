@@ -70,6 +70,7 @@ namespace Server
                         switch ( packet.packetType )
                         {
                             case PacketType.LOGIN:
+                                Console.WriteLine( "Server TCP 'Login' Packet Received" );
                                 LoginPacket loginPacket = (LoginPacket)packet;
                                 clients[index - 1].endPoint = loginPacket.EndPoint;
                                 clients[index - 1].ClientKey = loginPacket.PublicKey;
@@ -94,12 +95,14 @@ namespace Server
                                 }
                                 break;
                             case PacketType.ENCRYPTED_ADMIN:
+                                Console.WriteLine( "Server TCP 'Admin' Packet Received" );
                                 EncryptedAdminPacket adminPacket = (EncryptedAdminPacket)packet;
                                 adminIsConnected = BitConverter.ToBoolean( adminPacket.adminConnected, 0 );
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                     c.Value.TcpSend( adminPacket );
                                 break;
                             case PacketType.ENCRYPTED_CLIENT_LIST:
+                                Console.WriteLine( "Server TCP 'Client List' Packet Received" );
                                 EncryptedClientListPacket clientListPacket = (EncryptedClientListPacket)packet;
                                 string clientListName = client.DecryptString( clientListPacket.name );
                                 bool clientListBool = BitConverter.ToBoolean( clientListPacket.removeText, 0 );
@@ -121,12 +124,14 @@ namespace Server
                                 }
                                 break;
                             case PacketType.PEN:
+                                Console.WriteLine( "Server TCP 'Pen' Packet Received" );
                                 PenPacket penPacket = (PenPacket)packet;
                                 startColor = penPacket.penColor;
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                     c.Value.TcpSend( penPacket );
                                 break;
                             case PacketType.ENCRYPTED_ENABLE_PAINTING:
+                                Console.WriteLine( "Server TCP 'Enable Painting' Packet Received" );
                                 EncryptedEnablePaintingPacket enablePaintingPacket = (EncryptedEnablePaintingPacket)packet;
                                 string enablePaintingString = client.DecryptString( enablePaintingPacket.playerName );
                                 bool enablePaintingBool = BitConverter.ToBoolean( enablePaintingPacket.enablePainting, 0 );
@@ -136,6 +141,7 @@ namespace Server
                                             BitConverter.GetBytes( enablePaintingBool ) ) );
                                 break;
                             case PacketType.ENCRYPTED_CLEAR_SINGLE:
+                                Console.WriteLine( "Server TCP 'Clear Single' Packet Received" );
                                 EncryptedClearSinglePacket clearSinglePacket = (EncryptedClearSinglePacket)packet;
                                 string clearSingleString = client.DecryptString( clearSinglePacket.playerName );
                                 foreach ( KeyValuePair<int, Client> c in clients )
@@ -143,6 +149,7 @@ namespace Server
                                         c.Value.TcpSend( new EncryptedClearSinglePacket( c.Value.EncryptString( clearSingleString ) ) );
                                 break;
                             case PacketType.CLEAR_GLOBAL:
+                                Console.WriteLine( "Server TCP 'Clear Global' Packet Received" );
                                 ClearGlobalPacket clearGlobalPacket = (ClearGlobalPacket)packet;
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                     c.Value.TcpSend( clearGlobalPacket );
