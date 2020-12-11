@@ -99,9 +99,9 @@ namespace PaintApp
                             EncryptedAdminPacket adminPacket = (EncryptedAdminPacket)packet;
                             paintForm.adminConnected = BitConverter.ToBoolean( adminPacket.adminConnected, 0 );
                             break;
-                        case PacketType.CLIENT_LIST:
-                            ClientListPacket clientListPacket = (ClientListPacket)packet;
-                            paintForm.UpdatePlayerList( clientListPacket.name, clientListPacket.removeText );
+                        case PacketType.ENCRYPTED_CLIENT_LIST:
+                            EncryptedClientListPacket clientListPacket = (EncryptedClientListPacket)packet;
+                            paintForm.UpdatePlayerList( DecryptString( clientListPacket.name ), BitConverter.ToBoolean( clientListPacket.removeText, 0 ) );
                             break;
                         case PacketType.PEN:
                             PenPacket penPacket = (PenPacket)packet;
