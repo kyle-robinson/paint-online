@@ -324,7 +324,7 @@ namespace PaintApp
 
         private void ClearCanvasItem_Click( object sender, EventArgs e )
         {
-            client.TcpSendMessage( new ClearSinglePacket( PlayerList.SelectedItem.ToString() ) );
+            client.TcpSendMessage( new EncryptedClearSinglePacket( client.EncryptString( PlayerList.SelectedItem.ToString() ) ) );
         }
 
         private void AdminMenu_Opening( object sender, System.ComponentModel.CancelEventArgs e )

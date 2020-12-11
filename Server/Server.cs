@@ -135,11 +135,12 @@ namespace Server
                                         c.Value.TcpSend( new EncryptedEnablePaintingPacket( c.Value.EncryptString( enablePaintingString ),
                                             BitConverter.GetBytes( enablePaintingBool ) ) );
                                 break;
-                            case PacketType.CLEAR_SINGLE:
-                                ClearSinglePacket clearSinglePacket = (ClearSinglePacket)packet;
+                            case PacketType.ENCRYPTED_CLEAR_SINGLE:
+                                EncryptedClearSinglePacket clearSinglePacket = (EncryptedClearSinglePacket)packet;
+                                string clearSingleString = client.DecryptString( clearSinglePacket.playerName );
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                     if ( c.Value != client )
-                                        c.Value.TcpSend( clearSinglePacket );
+                                        c.Value.TcpSend( new EncryptedClearSinglePacket( c.Value.EncryptString( clearSingleString ) ) );
                                 break;
                             case PacketType.CLEAR_GLOBAL:
                                 ClearGlobalPacket clearGlobalPacket = (ClearGlobalPacket)packet;

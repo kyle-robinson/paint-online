@@ -114,9 +114,10 @@ namespace PaintApp
                             if ( enablePaintingString == clientName )
                                 paintForm.penEnabled = enablePaintingBool;
                             break;
-                        case PacketType.CLEAR_SINGLE:
-                            ClearSinglePacket clearSinglePacket = (ClearSinglePacket)packet;
-                            if ( clearSinglePacket.playerName == clientName )
+                        case PacketType.ENCRYPTED_CLEAR_SINGLE:
+                            EncryptedClearSinglePacket clearSinglePacket = (EncryptedClearSinglePacket)packet;
+                            string clearSingleString = DecryptString( clearSinglePacket.playerName );
+                            if ( clearSingleString == clientName )
                                 paintForm.ClearCanvas();
                             break;
                         case PacketType.CLEAR_GLOBAL:

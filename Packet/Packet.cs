@@ -11,7 +11,7 @@ public enum PacketType
     PEN,
     PAINT,
     ENCRYPTED_ENABLE_PAINTING,
-    CLEAR_SINGLE,
+    ENCRYPTED_CLEAR_SINGLE,
     CLEAR_GLOBAL
 }
 
@@ -101,13 +101,13 @@ public class EncryptedEnablePaintingPacket : Packet
 
 /*   CLEAR CANVAS   */
 [Serializable]
-public class ClearSinglePacket : Packet
+public class EncryptedClearSinglePacket : Packet
 {
-    public string playerName;
-    public ClearSinglePacket( string playerName )
+    public byte[] playerName;
+    public EncryptedClearSinglePacket( byte[] playerName )
     {
         this.playerName = playerName;
-        packetType = PacketType.CLEAR_SINGLE;
+        packetType = PacketType.ENCRYPTED_CLEAR_SINGLE;
     }
 }
 
