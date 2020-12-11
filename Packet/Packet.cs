@@ -61,6 +61,17 @@ public class EncryptedClientListPacket : Packet
 
 /*   PAINTING   */
 [Serializable]
+public class PenPacket : Packet
+{
+    public Color penColor;
+    public PenPacket( Color penColor )
+    {
+        this.penColor = penColor;
+        packetType = PacketType.PEN;
+    }
+}
+
+[Serializable]
 public class PaintPacket : Packet
 {
     public int xPos;
@@ -72,17 +83,6 @@ public class PaintPacket : Packet
         this.yPos = yPos;
         this.mouseLocation = mouseLocation;
         packetType = PacketType.PAINT;
-    }
-}
-
-[Serializable]
-public class PenPacket : Packet
-{
-    public Color penColor;
-    public PenPacket( Color penColor )
-    {
-        this.penColor = penColor;
-        packetType = PacketType.PEN;
     }
 }
 
