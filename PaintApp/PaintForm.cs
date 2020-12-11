@@ -112,7 +112,6 @@ namespace PaintApp
         {
             ClearCanvas();
             client.TcpSendMessage( new ClearGlobalPacket() );
-            UpdateServerWindow( "Canvas cleared by admin.", Color.Black, Color.IndianRed );
         }
 
         /*   CONNECTION / DISCONNECTING CLIENTS   */

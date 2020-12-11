@@ -52,6 +52,7 @@ namespace PaintApp
             this.DisablePaintingItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ClearCanvasItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TopPanel = new System.Windows.Forms.Panel();
+            this.SpawnClientButton = new System.Windows.Forms.Button();
             this.ClearGlobalButton = new System.Windows.Forms.Button();
             this.DisconnectButton = new System.Windows.Forms.Button();
             this.ConnectButton = new System.Windows.Forms.Button();
@@ -59,7 +60,6 @@ namespace PaintApp
             this.UsernameUnderline = new System.Windows.Forms.Panel();
             this.UsernameTextBox = new System.Windows.Forms.TextBox();
             this.ClearLocalButton = new System.Windows.Forms.Button();
-            this.SpawnClientButton = new System.Windows.Forms.Button();
             this.Canvas.SuspendLayout();
             this.ColourPalette.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BlackBox)).BeginInit();
@@ -245,6 +245,7 @@ namespace PaintApp
             // 
             this.ServerWindow.BackColor = System.Drawing.Color.White;
             this.ServerWindow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ServerWindow.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ServerWindow.Location = new System.Drawing.Point(14, 228);
             this.ServerWindow.Name = "ServerWindow";
             this.ServerWindow.ReadOnly = true;
@@ -339,6 +340,22 @@ namespace PaintApp
             this.TopPanel.Name = "TopPanel";
             this.TopPanel.Size = new System.Drawing.Size(818, 51);
             this.TopPanel.TabIndex = 1;
+            // 
+            // SpawnClientButton
+            // 
+            this.SpawnClientButton.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.SpawnClientButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.SpawnClientButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.SpawnClientButton.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SpawnClientButton.ForeColor = System.Drawing.Color.MediumPurple;
+            this.SpawnClientButton.Location = new System.Drawing.Point(420, 13);
+            this.SpawnClientButton.Name = "SpawnClientButton";
+            this.SpawnClientButton.Size = new System.Drawing.Size(91, 23);
+            this.SpawnClientButton.TabIndex = 4;
+            this.SpawnClientButton.Text = "Spawn Client";
+            this.SpawnClientButton.UseVisualStyleBackColor = false;
+            this.SpawnClientButton.Visible = false;
+            this.SpawnClientButton.Click += new System.EventHandler(this.SpawnClientButton_Click);
             // 
             // ClearGlobalButton
             // 
@@ -439,22 +456,6 @@ namespace PaintApp
             this.ClearLocalButton.Text = "Clear Canvas";
             this.ClearLocalButton.UseVisualStyleBackColor = false;
             this.ClearLocalButton.Click += new System.EventHandler(this.ClearLocalButton_Click);
-            // 
-            // SpawnClientButton
-            // 
-            this.SpawnClientButton.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.SpawnClientButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.SpawnClientButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.SpawnClientButton.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SpawnClientButton.ForeColor = System.Drawing.Color.MediumPurple;
-            this.SpawnClientButton.Location = new System.Drawing.Point(420, 13);
-            this.SpawnClientButton.Name = "SpawnClientButton";
-            this.SpawnClientButton.Size = new System.Drawing.Size(91, 23);
-            this.SpawnClientButton.TabIndex = 4;
-            this.SpawnClientButton.Text = "Spawn Client";
-            this.SpawnClientButton.UseVisualStyleBackColor = false;
-            this.SpawnClientButton.Visible = false;
-            this.SpawnClientButton.Click += new System.EventHandler(this.SpawnClientButton_Click);
             // 
             // PaintForm
             // 

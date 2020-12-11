@@ -138,6 +138,7 @@ namespace PaintApp
                             break;
                         case PacketType.CLEAR_GLOBAL:
                             Console.WriteLine( "Client [" + clientName + "] TCP 'Clear Global' Packet Received" );
+                            paintForm.UpdateServerWindow( "Admin cleared the canvas!", Color.Black, Color.IndianRed );
                             paintForm.ClearCanvas();
                             break;
                     }
