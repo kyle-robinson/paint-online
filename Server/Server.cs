@@ -126,11 +126,14 @@ namespace Server
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                     c.Value.TcpSend( penPacket );
                                 break;
-                            case PacketType.ENABLE_PAINTING:
-                                EnablePaintingPacket enablePainting = (EnablePaintingPacket)packet;
+                            case PacketType.ENCRYPTED_ENABLE_PAINTING:
+                                EncryptedEnablePaintingPacket enablePaintingPacket = (EncryptedEnablePaintingPacket)packet;
+                                string enablePaintingString = client.DecryptString( enablePaintingPacket.playerName );
+                                bool enablePaintingBool = BitConverter.ToBoolean( enablePaintingPacket.enablePainting, 0 );
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                     if ( c.Value != client )
-                                        c.Value.TcpSend( enablePainting );
+                                        c.Value.TcpSend( new EncryptedEnablePaintingPacket( c.Value.EncryptString( enablePaintingString ),
+                                            BitConverter.GetBytes( enablePaintingBool ) ) );
                                 break;
                             case PacketType.CLEAR_SINGLE:
                                 ClearSinglePacket clearSinglePacket = (ClearSinglePacket)packet;

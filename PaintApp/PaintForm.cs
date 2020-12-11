@@ -310,13 +310,15 @@ namespace PaintApp
             {
                 DisablePaintingItem.Text = "Enable Painting";
                 noPaintPlayers.Add( PlayerList.SelectedItem.ToString() );
-                client.TcpSendMessage( new EnablePaintingPacket( PlayerList.SelectedItem.ToString(), false ) );
+                client.TcpSendMessage( new EncryptedEnablePaintingPacket( client.EncryptString( PlayerList.SelectedItem.ToString() ),
+                    BitConverter.GetBytes( false ) ) );
             }
             else
             {
                 DisablePaintingItem.Text = "Disable Painting";
                 noPaintPlayers.Remove( PlayerList.SelectedItem.ToString() );
-                client.TcpSendMessage( new EnablePaintingPacket( PlayerList.SelectedItem.ToString(), true ) );
+                client.TcpSendMessage( new EncryptedEnablePaintingPacket( client.EncryptString( PlayerList.SelectedItem.ToString() ),
+                    BitConverter.GetBytes( true ) ) );
             }
         }
 

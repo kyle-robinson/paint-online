@@ -8,9 +8,9 @@ public enum PacketType
     LOGIN,
     ENCRYPTED_ADMIN,
     ENCRYPTED_CLIENT_LIST,
-    ENABLE_PAINTING,
     PEN,
     PAINT,
+    ENCRYPTED_ENABLE_PAINTING,
     CLEAR_SINGLE,
     CLEAR_GLOBAL
 }
@@ -87,18 +87,19 @@ public class PenPacket : Packet
 }
 
 [Serializable]
-public class EnablePaintingPacket : Packet
+public class EncryptedEnablePaintingPacket : Packet
 {
-    public string playerName;
-    public bool enablePainting;
-    public EnablePaintingPacket( string playerName, bool enablePainting )
+    public byte[] playerName;
+    public byte[] enablePainting;
+    public EncryptedEnablePaintingPacket( byte[] playerName, byte[] enablePainting )
     {
         this.playerName = playerName;
         this.enablePainting = enablePainting;
-        packetType = PacketType.ENABLE_PAINTING;
+        packetType = PacketType.ENCRYPTED_ENABLE_PAINTING;
     }
 }
 
+/*   CLEAR CANVAS   */
 [Serializable]
 public class ClearSinglePacket : Packet
 {

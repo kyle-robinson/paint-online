@@ -107,10 +107,12 @@ namespace PaintApp
                             PenPacket penPacket = (PenPacket)packet;
                             paintForm.UpdatePen( penPacket.penColor );
                             break;
-                        case PacketType.ENABLE_PAINTING:
-                            EnablePaintingPacket enablePainting = (EnablePaintingPacket)packet;
-                            if ( enablePainting.playerName == clientName )
-                                paintForm.penEnabled = enablePainting.enablePainting;
+                        case PacketType.ENCRYPTED_ENABLE_PAINTING:
+                            EncryptedEnablePaintingPacket enablePaintingPacket = (EncryptedEnablePaintingPacket)packet;
+                            string enablePaintingString = DecryptString( enablePaintingPacket.playerName );
+                            bool enablePaintingBool = BitConverter.ToBoolean( enablePaintingPacket.enablePainting, 0 );
+                            if ( enablePaintingString == clientName )
+                                paintForm.penEnabled = enablePaintingBool;
                             break;
                         case PacketType.CLEAR_SINGLE:
                             ClearSinglePacket clearSinglePacket = (ClearSinglePacket)packet;
