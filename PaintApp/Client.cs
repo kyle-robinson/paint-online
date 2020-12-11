@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Drawing;
 using System.Threading;
 using System.Net.Sockets;
 using System.Security.Cryptography;
@@ -117,14 +118,23 @@ namespace PaintApp
                             string enablePaintingString = DecryptString( enablePaintingPacket.playerName );
                             bool enablePaintingBool = BitConverter.ToBoolean( enablePaintingPacket.enablePainting, 0 );
                             if ( enablePaintingString == clientName )
+                            {
                                 paintForm.penEnabled = enablePaintingBool;
+                                if ( enablePaintingBool == true )
+                                    paintForm.UpdateServerWindow( "Admin has enabled painting!", Color.Black, Color.SkyBlue );
+                                else
+                                    paintForm.UpdateServerWindow( "Admin has disabled painting!", Color.Black, Color.IndianRed );
+                            }
                             break;
                         case PacketType.ENCRYPTED_CLEAR_SINGLE:
                             Console.WriteLine( "Client [" + clientName + "] TCP 'Clear Single' Packet Received" );
                             EncryptedClearSinglePacket clearSinglePacket = (EncryptedClearSinglePacket)packet;
                             string clearSingleString = DecryptString( clearSinglePacket.playerName );
                             if ( clearSingleString == clientName )
+                            {
+                                paintForm.UpdateServerWindow( "Admin cleared the canvas!", Color.Black, Color.IndianRed );
                                 paintForm.ClearCanvas();
+                            }
                             break;
                         case PacketType.CLEAR_GLOBAL:
                             Console.WriteLine( "Client [" + clientName + "] TCP 'Clear Global' Packet Received" );

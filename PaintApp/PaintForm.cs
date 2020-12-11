@@ -105,12 +105,14 @@ namespace PaintApp
         private void ClearLocalButton_Click( object sender, EventArgs e )
         {
             ClearCanvas();
+            UpdateServerWindow( "Canvas cleared.", Color.Black, Color.LightGreen );
         }
 
         private void ClearGlobalButton_Click( object sender, EventArgs e )
         {
             ClearCanvas();
             client.TcpSendMessage( new ClearGlobalPacket() );
+            UpdateServerWindow( "Canvas cleared by admin.", Color.Black, Color.IndianRed );
         }
 
         /*   CONNECTION / DISCONNECTING CLIENTS   */
