@@ -2,6 +2,7 @@
 using System.Net;
 using System.Text;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Server
@@ -17,6 +18,10 @@ namespace Server
         private object readLock;
         private object writeLock;
         public string name = "";
+        private RSACryptoServiceProvider RSAProvider;
+        public RSAParameters ClientKey;
+        public RSAParameters PublicKey;
+        public RSAParameters PrivateKey;
 
         public Client( Socket socket )
         {
@@ -29,6 +34,10 @@ namespace Server
             reader = new BinaryReader( stream, Encoding.UTF8 );
             writer = new BinaryWriter( stream, Encoding.UTF8 );
             formatter = new BinaryFormatter();
+
+            RSAProvider = new RSACryptoServiceProvider( 2048 );
+            PublicKey = RSAProvider.ExportParameters( false );
+            PrivateKey = RSAProvider.ExportParameters( true );
         }
         
         public Packet TcpRead()
@@ -58,6 +67,34 @@ namespace Server
                 writer.Flush();
                 memoryStream.Close();
             }
+        }
+
+        private byte[] Encrypt( byte[] data )
+        {
+            lock( RSAProvider )
+            {
+                RSAProvider.ImportParameters( ClientKey );
+                return RSAProvider.Encrypt( data, true );
+            }
+        }
+
+        private byte[] Decrypt( byte[] data )
+        {
+            lock( RSAProvider )
+            {
+                RSAProvider.ImportParameters( PrivateKey );
+                return RSAProvider.Decrypt( data, true );
+            }
+        }
+
+        public byte[] EncryptString( string message )
+        {
+            return Encrypt( Encoding.UTF8.GetBytes( message ) );
+        }
+
+        public string DecryptString( byte[] message )
+        {
+            return Encoding.UTF8.GetString( Decrypt( message ) );
         }
 
         public void Close()

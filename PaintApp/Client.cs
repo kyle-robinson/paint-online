@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace PaintApp
@@ -18,11 +19,18 @@ namespace PaintApp
         private PaintForm paintForm;
         private NetworkStream stream;
         private BinaryFormatter formatter;
+        private RSACryptoServiceProvider RSAProvider;
+        private RSAParameters ServerKey;
+        private RSAParameters PublicKey;
+        private RSAParameters PrivateKey;
 
         public Client()
         {
             tcpClient = new TcpClient();
             udpClient = new UdpClient();
+            RSAProvider = new RSACryptoServiceProvider( 2048 );
+            PublicKey = RSAProvider.ExportParameters( false );
+            PrivateKey = RSAProvider.ExportParameters( true );
         }
 
         public bool Connect( string ipAddress, int port )
@@ -39,7 +47,7 @@ namespace PaintApp
             }
             catch( Exception exception )
             {
-                Console.WriteLine( "Client Exception: " + exception.Message );
+                Console.WriteLine( "Client Connect Exception: " + exception.Message );
                 return false;
             }
         }
@@ -56,13 +64,13 @@ namespace PaintApp
                 Thread udpThread = new Thread( () => { UdpProcessServerResponse(); } );
                 udpThread.Start();
 
-                TcpSendMessage( new LoginPacket( (IPEndPoint)udpClient.Client.LocalEndPoint ) );
+                TcpSendMessage( new LoginPacket( (IPEndPoint)udpClient.Client.LocalEndPoint, PublicKey ) );
 
                 paintForm.ShowDialog();
             }
             catch( Exception exception )
             {
-                Console.WriteLine( exception.Message );
+                Console.WriteLine( "Client Run Exception: " + exception.Message );
             }
             finally
             {
@@ -83,6 +91,10 @@ namespace PaintApp
                     Packet packet = formatter.Deserialize( memoryStream ) as Packet;
                     switch ( packet.packetType )
                     {
+                        case PacketType.LOGIN:
+                            LoginPacket loginPacket = (LoginPacket)packet;
+                            ServerKey = loginPacket.PublicKey;
+                            break;
                         case PacketType.ADMIN:
                             AdminPacket adminPacket = (AdminPacket)packet;
                             paintForm.adminConnected = adminPacket.adminConnected;
@@ -160,6 +172,34 @@ namespace PaintApp
             byte[] buffer = memoryStream.GetBuffer();
             udpClient.Send( buffer, buffer.Length );
             memoryStream.Close();
+        }
+
+        private byte[] Encrypt( byte[] data )
+        {
+            lock( RSAProvider )
+            {
+                RSAProvider.ImportParameters( ServerKey );
+                return RSAProvider.Encrypt( data, true );
+            }
+        }
+
+        private byte[] Decrypt( byte[] data )
+        {
+            lock( RSAProvider )
+            {
+                RSAProvider.ImportParameters( PrivateKey );
+                return RSAProvider.Decrypt( data, true );
+            }
+        }
+
+        public byte[] EncryptString( string message )
+        {
+            return Encrypt( Encoding.UTF8.GetBytes( message ) );
+        }
+
+        public string DecryptString( byte[] message )
+        {
+            return Encoding.UTF8.GetString( Decrypt( message ) );
         }
     }
 }

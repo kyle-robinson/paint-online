@@ -26,7 +26,7 @@ namespace Server
             tcpListerer = new TcpListener( localAddress, port );
             udpListener = new UdpClient( port );
             clientNames = new List<string>();
-            clientNames.Add( "Initial" );
+            clientNames.Add( "Empty" );
         }
 
         public void Start()
@@ -72,6 +72,8 @@ namespace Server
                             case PacketType.LOGIN:
                                 LoginPacket loginPacket = (LoginPacket)packet;
                                 clients[index - 1].endPoint = loginPacket.EndPoint;
+                                clients[index - 1].ClientKey = loginPacket.PublicKey;
+                                client.TcpSend( new LoginPacket( null, client.PublicKey ) );
                                 client.TcpSend( new PenPacket( startColor ) );
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                 {
@@ -99,7 +101,7 @@ namespace Server
                                 ClientListPacket clientListPacket = (ClientListPacket)packet;
                                 if ( !clientListPacket.removeText )
                                     clientNames.Add( clientListPacket.name );
-                                else if ( clientListPacket.removeText )
+                                else
                                     clientNames.Remove( clientListPacket.name );
                                 foreach ( KeyValuePair<int, Client> c in clients )
                                 {

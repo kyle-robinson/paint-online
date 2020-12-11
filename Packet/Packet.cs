@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Drawing;
+using System.Security.Cryptography;
 
 public enum PacketType
 {
@@ -25,9 +26,11 @@ public class Packet
 public class LoginPacket : Packet
 {
     public IPEndPoint EndPoint;
-    public LoginPacket( IPEndPoint EndPoint )
+    public RSAParameters PublicKey;
+    public LoginPacket( IPEndPoint EndPoint, RSAParameters PublicKey )
     {
         this.EndPoint = EndPoint;
+        this.PublicKey = PublicKey;
         packetType = PacketType.LOGIN;
     }
 }
