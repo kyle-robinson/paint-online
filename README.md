@@ -18,8 +18,8 @@ A multithreaded online version of "Paint" that utilises a client-server architec
 
 ### Credits
 
-        Design Reference:
-                    https://youtu.be/xyEG1e5Gnic
-                    
         Code Reference:
                     https://youtu.be/EA5jF_7FteM
+
+        Design Reference:
+                    https://youtu.be/xyEG1e5Gnic
