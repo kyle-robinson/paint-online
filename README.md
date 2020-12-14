@@ -16,7 +16,7 @@ A multithreaded online version of "Paint" that utilises a client-server architec
 
 ---
 
-Credits:
+### Credits
 
         Design Reference:
                     https://youtu.be/xyEG1e5Gnic
