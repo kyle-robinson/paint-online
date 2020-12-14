@@ -6,12 +6,13 @@ A multithreaded online version of "Paint" that utilises a client-server architec
 
 ## List of Features
 
-- [x] Connected Clients List
+- [x] Client List
 - [x] Canvas Painting
 - [x] Canvas Clearing
 - [x] Username System
 - [x] Brush Colours
 - [x] Admin System
+- [x] Spawning of Clients
 
 ---
 
