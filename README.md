@@ -2,7 +2,7 @@
 
 A multithreaded online version of "Paint" that utilises a client-server architecture to allow for connected users to paint collectively on a single canvas.
 
-*Click image to view project on website*
+*- Click image to view project on website -*
 <a href="https://kyle-robinson.github.io/html/networking" target="_blank">
         <img src="Assets/Paint Demo.png" alt="Paint Application Demo 1" border="10" />
 </a>
