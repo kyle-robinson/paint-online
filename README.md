@@ -1,5 +1,11 @@
 # Paint Online
 
+[![MSBuild-Debug](https://github.com/kyle-robinson/paint-online/actions/workflows/msbuild-debug.yml/badge.svg)](https://github.com/kyle-robinson/paint-online/actions/workflows/msbuild-debug.yml)
+&nbsp;
+[![MSBuild-Release](https://github.com/kyle-robinson/paint-online/actions/workflows/msbuild-release.yml/badge.svg)](https://github.com/kyle-robinson/paint-online/actions/workflows/msbuild-release.yml)
+&nbsp;
+[![CodeQL](https://github.com/kyle-robinson/paint-online/actions/workflows/codeql.yml/badge.svg)](https://github.com/kyle-robinson/paint-online/actions/workflows/codeql.yml)
+
 A multithreaded online version of "Paint" that utilises a client-server architecture to allow for connected users to paint collectively on a single canvas.
 
 *- Click <a href="https://kyle-robinson.github.io/html/networking" target="_blank">here</a> to view project on website -*
